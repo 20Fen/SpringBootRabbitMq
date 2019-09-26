@@ -5,6 +5,9 @@ import com.example.demo.system.model.po.TestPo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+
 /**
  * Description:
  *
@@ -25,4 +28,7 @@ public interface TestService {
 
     String deleteById(String planNo) throws Exception;
 
+    String deleteUrl(String planNo) throws Exception;
+
+    TestPo getById(Map<String, Object> map);
 }

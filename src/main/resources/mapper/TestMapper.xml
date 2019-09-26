@@ -73,7 +73,8 @@
             DATE_FORMAT(end_time,'%Y-%m-%d-%T') end_time,
             DATE_FORMAT(stat_time,'%Y-%m-%d-%T') stat_time,
             DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
-            doc
+            doc,
+            url
              from ceshi where plan_no = #{planNo}
     </select>
 </mapper>

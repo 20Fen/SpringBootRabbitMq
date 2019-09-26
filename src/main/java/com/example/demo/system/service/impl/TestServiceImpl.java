@@ -15,8 +15,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,7 +48,7 @@ public class TestServiceImpl implements TestService {
 
 
     @Override
-    public PageInfo<TestPo> findAll(Integer page,Integer pageSize,FindAllTest findAllTest) throws Exception {
+    public PageInfo<TestPo> findAll(Integer page, Integer pageSize, FindAllTest findAllTest) throws Exception {
 
         int limit = page != null ? page : 1;
         int offset = pageSize != null ? pageSize : 10;
@@ -116,23 +120,56 @@ public class TestServiceImpl implements TestService {
 
         map.put("planNo", planNo);
         TestPo test = testMapper.getById(map);
-        if(null == test){
+        if (null == test) {
             throw new Exception("数据不存在");
         }
+        Path path = Paths.get(test.getUrl());
+        boolean exists = Files.deleteIfExists(path);
+        if (!exists) {
+            throw new Exception("删除文件失败");
+        }
         Integer integer = testMapper.deleteById(map);
-        if(1 == integer){
+        if (1 == integer) {
             return test.getPlanNo();
         }
         return null;
     }
 
     @Override
+    public String deleteUrl(String planNo) throws Exception {
+
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtils.isEmpty(planNo)) {
+            throw new Exception("planNo为空");
+        }
+        map.put("planNo", planNo);
+        TestPo test = testMapper.getById(map);
+        if (null == test) {
+            throw new Exception("数据不存在");
+        }
+        Path path = Paths.get(test.getUrl());
+        boolean exists = Files.deleteIfExists(path);
+        if (!exists) {
+            throw new Exception("删除文件失败");
+        }
+        map.put("filename", "");
+        map.put("url", "");
+        testMapper.updataTestDoc(map);
+
+        return test.getPlanNo();
+    }
+
+
+    @Override
     public String upload(String planNo, MultipartFile file) throws Exception {
 
         Map<String, Object> map = new HashMap<>();
+        if (file.getSize() == 0) {
+            throw new Exception("文件内容不不能为空");
+        }
 
-        if (StringUtils.isEmpty(planNo) && null == file) {
-            throw new Exception("请上传文件");
+        if (StringUtils.isEmpty(planNo) || null == file) {
+            throw new Exception("请输入必传值");
         }
         map.put("planNo", planNo);
         String savePath = path + File.separator + planNo;
@@ -140,7 +177,7 @@ public class TestServiceImpl implements TestService {
         String filename = file.getOriginalFilename();
         TestPo byId = testMapper.getById(map);
 
-        if (null != byId.getDoc() && !byId.getDoc().equals("")) {
+        if (null != byId.getDoc() && !byId.getDoc().equals("") && null != byId.getUrl() && !byId.getUrl().equals("")) {
             throw new Exception("文件已存在");
         }
         try {
@@ -154,10 +191,12 @@ public class TestServiceImpl implements TestService {
         }
         map.put("planNo", planNo);
         map.put("filename", filename);
-        map.put("url",savePath+File.separator+filename);
+        map.put("url", savePath + File.separator + filename);
         testMapper.updataTestDoc(map);
         return filename;
     }
+
+
 
     /**
      * @return void
@@ -167,8 +206,11 @@ public class TestServiceImpl implements TestService {
     private Integer saveFile(String savePath, MultipartFile file, String filename) throws Exception {
         Integer num = checkFileSize(file.getSize(), savePath);
         if (num == 1) {
+//            得到上传的文件的字节
             byte[] bytes = file.getBytes();
+//            上传的文件的全路径
             Path path = Paths.get(savePath + File.separator + filename);
+//            调用方法上传
             Files.write(path, bytes);
         }
         return 1;
@@ -180,11 +222,13 @@ public class TestServiceImpl implements TestService {
      * @Param [ size ]
      */
     private Integer checkFileSize(long size, String savePath) throws Exception {
-
+//        获取存储当前文件后剩余的磁盘空间
         Long space = TestUtil.getFreeDiskSpace(savePath);
         File file = new File(savePath);
+//        获取当前磁盘空间
         long usableSpace = file.getUsableSpace();
         System.out.println(usableSpace);
+//        判断剩余的磁盘空间是否小于当前上传的文件大小
         if (space < size) {
             throw new Exception("磁盘空间不足");
         }
@@ -192,4 +236,9 @@ public class TestServiceImpl implements TestService {
     }
 
 
+    @Override
+    public TestPo getById(Map<String, Object> map) {
+        return testMapper.getById(map);
+
+    }
 }
