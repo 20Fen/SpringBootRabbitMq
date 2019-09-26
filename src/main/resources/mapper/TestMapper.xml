@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.system.dao.mapper.TestMapper">
+
+    <resultMap id="getTest" type="com.example.demo.system.model.po.TestPo">
+        <result column="id" property="id"></result>
+        <result column="plan_no" property="planNo"></result>
+        <result column="end_time" property="endTime"></result>
+        <result column="stat_time" property="statTime"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="doc" property="doc"></result>
+        <result column="url" property="url"></result>
+    </resultMap>
+    <insert id="insertTest">
+        insert into ceshi (id,plan_no,end_time,stat_time,create_time) values (
+            #{list.id},
+		    #{list.planNo},
+		    str_to_date(#{list.endTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
+		    str_to_date(#{list.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
+		    str_to_date(#{list.createTime,jdbcType=VARCHAR},'%Y-%m-%d'))
+    </insert>
+    <update id="updataTest" parameterType="map">
+        update ceshi set
+           stat_time = str_to_date(#{list.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
+            end_time = str_to_date(#{list.endTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
+            create_time = str_to_date(#{list.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
+            where plan_no = #{list.planNo}
+    </update>
+    <update id="updataTestDoc">
+        update ceshi set
+        doc = #{filename}
+        where plan_no = #{planNo}
+    </update>
+    <delete id="deleteById" parameterType="string">
+        delete from ceshi
+        where plan_no = #{planNo}
+    </delete>
+
+
+    <select id="findAll" resultMap="getTest" parameterType="map">
+            select
+             id,
+             plan_no,
+             DATE_FORMAT(end_time,'%Y-%m-%d-%T') end_time,
+             DATE_FORMAT(stat_time,'%Y-%m-%d-%T') stat_time,
+             DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
+             doc
+            from ceshi
+            <where>
+                <if test="model.planNo != null and model.planNo != '' ">
+                    and plan_no=#{model.planNo}
+                </if>
+                <if test="model.endTime != null and model.endTime!= '' and model.statTime != null and model.statTime!= ''">
+                    and (stat_time <![CDATA[ <= ]]> str_to_date(#{model.endTime},'%Y-%m-%d %H:%i:%s') and end_time <![CDATA[ >= ]]> str_to_date(#{model.statTime},'%Y-%m-%d %H:%i:%s'))
+                </if>
+
+<!--                <if test="model.statTime != null and model.statTime!= '' ">-->
+<!--                    and stat_time=str_to_date(#{model.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s')-->
+<!--                </if>-->
+                <if test="model.createTime != null and model.createTime!= '' ">
+                    and create_time=str_to_date(#{model.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
+                </if>
+            </where>
+
+    </select>
+    <select id="getById" resultMap="getTest" parameterType="map">
+            select
+            id,
+            plan_no,
+            DATE_FORMAT(end_time,'%Y-%m-%d-%T') end_time,
+            DATE_FORMAT(stat_time,'%Y-%m-%d-%T') stat_time,
+            DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
+            doc
+             from ceshi where plan_no = #{planNo}
+    </select>
+</mapper>
