@@ -65,6 +65,7 @@ public class TestController {
 
         return byId;
     }
+
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     @ApiOperation("上传文件")
     public String upload(String planNo, MultipartFile file) throws Exception {
@@ -73,4 +74,14 @@ public class TestController {
 
         return name;
     }
+
+    @RequestMapping(value = "/downLoad",method = RequestMethod.POST)
+    @ApiOperation("上传文件")
+    public String downLoad(String planNo, MultipartFile file) throws Exception {
+
+        String name= testService.upload(planNo,file);
+
+        return name;
+    }
+
 }

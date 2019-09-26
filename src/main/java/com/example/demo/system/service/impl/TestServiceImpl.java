@@ -140,7 +140,7 @@ public class TestServiceImpl implements TestService {
         String filename = file.getOriginalFilename();
         TestPo byId = testMapper.getById(map);
 
-        if (null != byId.getDoc()) {
+        if (null != byId.getDoc() && !byId.getDoc().equals("")) {
             throw new Exception("文件已存在");
         }
         try {
@@ -154,6 +154,7 @@ public class TestServiceImpl implements TestService {
         }
         map.put("planNo", planNo);
         map.put("filename", filename);
+        map.put("url",savePath+File.separator+filename);
         testMapper.updataTestDoc(map);
         return filename;
     }

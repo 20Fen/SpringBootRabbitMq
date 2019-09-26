@@ -30,7 +30,8 @@
     </update>
     <update id="updataTestDoc">
         update ceshi set
-        doc = #{filename}
+        doc = #{filename},
+        url = #{url}
         where plan_no = #{planNo}
     </update>
     <delete id="deleteById" parameterType="string">
