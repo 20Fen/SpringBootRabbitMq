@@ -17,17 +17,17 @@ import java.util.Map;
  */
 @Mapper
 public interface TestMapper {
-
+//    根据条件查询
     List<TestPo> findAll(@Param("model")FindAllTest findAllTest);
-
+//    新建
     Integer insertTest(@Param("list") TestPo testPo);
-
+//    修改
     Integer updataTest(@Param("list") TestPo testPo);
-
+//    根据id查询
     TestPo getById(Map<String,Object> map);
-
+//    删除文件更新数据库字段
     void updataTestDoc(Map<String,Object> map);
-
+//    删除数据
     Integer deleteById(Map<String, Object> map);
 
 

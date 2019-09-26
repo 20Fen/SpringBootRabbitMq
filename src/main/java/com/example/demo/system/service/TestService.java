@@ -17,18 +17,17 @@ import java.util.Map;
  */
 
 public interface TestService {
-
+//    根据条件查询
     PageInfo<TestPo> findAll(Integer page,Integer pageSize,FindAllTest findAllTest) throws Exception;
-
+//    新建和修改
     String insert(TestPo test) throws Exception;
-
+//    根据id查询
     TestPo getById(String planNo) throws Exception;
-
+//    上传文件
     String upload(String planNo, MultipartFile file) throws Exception;
-
+//    删除数据并删除文件
     String deleteById(String planNo) throws Exception;
-
+//    删除文件并更新数据库字段
     String deleteUrl(String planNo) throws Exception;
-
     TestPo getById(Map<String, Object> map);
 }

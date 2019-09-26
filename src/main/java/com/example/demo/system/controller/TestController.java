@@ -120,8 +120,7 @@ public class TestController {
         response.setHeader("Content-Type", "application/octet-stream");
 //        设置在浏览器上下载的文件名
         response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
-        TestUtil.down(fileUrl,response);
-
+        TestUtil.down(fileUrl, response);
     }
 
 }

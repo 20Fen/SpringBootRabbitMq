@@ -32,7 +32,6 @@ import java.util.UUID;
 /**
  * Description:
  *
- * @author yangfl
  * @date 2019年09月24日 15:21
  * Version 1.0
  */
@@ -46,10 +45,16 @@ public class TestServiceImpl implements TestService {
     @Value("${paths}")
     private String path;
 
-
+    /**
+     * Description: 根据条件进行查询
+     *
+     * @date 2019年09月24日 15:21
+     * Version 1.0
+     */
     @Override
     public PageInfo<TestPo> findAll(Integer page, Integer pageSize, FindAllTest findAllTest) throws Exception {
-
+//        前台不传分页值后台设置
+//        调用分页插件,执行的语句必须在插件的下面
         int limit = page != null ? page : 1;
         int offset = pageSize != null ? pageSize : 10;
         PageHelper.startPage(limit, offset);
@@ -57,14 +62,21 @@ public class TestServiceImpl implements TestService {
         if (StringUtils.isEmpty(all)) {
             throw new Exception("查询失败");
         }
-
         return new PageInfo<>(all);
     }
 
+    /**
+     * Description: 新建和修改数据
+     *
+     * @date 2019年09月24日 15:21
+     * Version 1.0
+     */
     @Override
     @Transactional
     public String insert(TestPo test) throws Exception {
+
         Map<String, Object> map = new HashMap<>();
+//        UUID
         String planNoId = UUID.randomUUID().toString();
 
         String planNo = test.getPlanNo();
@@ -75,23 +87,34 @@ public class TestServiceImpl implements TestService {
         testPo.setStatTime(test.getStatTime());
         testPo.setEndTime(test.getEndTime());
         testPo.setCreateTime(test.getCreateTime());
-
+//        判断PlanNo是否为空
         if (StringUtils.isEmpty(planNo)) {
+//        为空就是新建
             testPo.setId(UUID.randomUUID().toString());
+//        调用执行新建语句
             testMapper.insertTest(testPo);
             return planNoId;
         } else {
+//            不为空就是修改
             testPo.setPlanNo(planNo);
             map.put("planNo", planNo);
+//            调用执行查询语句
             TestPo testPo1 = testMapper.getById(map);
             if (null == testPo1) {
                 throw new Exception("数据不存在");
             }
+//            调用执行修改语句
             testMapper.updataTest(testPo);
             return testPo1.getPlanNo();
         }
     }
 
+    /**
+     * Description: 根据ID查询数据
+     *
+     * @date 2019年09月24日 15:21
+     * Version 1.0
+     */
     @Override
     @Transactional
     public TestPo getById(String planNo) throws Exception {
@@ -102,6 +125,7 @@ public class TestServiceImpl implements TestService {
         }
 
         map.put("planNo", planNo);
+//           调用执行查询语句
         TestPo test = testMapper.getById(map);
         if (null == test) {
             throw new Exception("查询数据不存在");
@@ -109,6 +133,12 @@ public class TestServiceImpl implements TestService {
         return test;
     }
 
+    /**
+     * Description: 删除数据并且删除文件
+     *
+     * @date 2019年09月24日 15:21
+     * Version 1.0
+     */
     @Override
     @Transactional
     public String deleteById(String planNo) throws Exception {
@@ -119,15 +149,19 @@ public class TestServiceImpl implements TestService {
         }
 
         map.put("planNo", planNo);
+//        调用执行查询语句
         TestPo test = testMapper.getById(map);
         if (null == test) {
             throw new Exception("数据不存在");
         }
+//        得到数据库中的存储路径
         Path path = Paths.get(test.getUrl());
+//        删除文件
         boolean exists = Files.deleteIfExists(path);
         if (!exists) {
             throw new Exception("删除文件失败");
         }
+//        调用执行删除语句
         Integer integer = testMapper.deleteById(map);
         if (1 == integer) {
             return test.getPlanNo();
@@ -135,6 +169,12 @@ public class TestServiceImpl implements TestService {
         return null;
     }
 
+    /**
+     * Description: 删除文件并更新数据库字段
+     *
+     * @date 2019年09月24日 15:21
+     * Version 1.0
+     */
     @Override
     public String deleteUrl(String planNo) throws Exception {
 
@@ -143,23 +183,31 @@ public class TestServiceImpl implements TestService {
             throw new Exception("planNo为空");
         }
         map.put("planNo", planNo);
+//        调用执行查询语句
         TestPo test = testMapper.getById(map);
         if (null == test) {
             throw new Exception("数据不存在");
         }
+//        得到数据库中的文件路径
         Path path = Paths.get(test.getUrl());
+//        删除文件
         boolean exists = Files.deleteIfExists(path);
         if (!exists) {
             throw new Exception("删除文件失败");
         }
         map.put("filename", "");
         map.put("url", "");
+//        调用修改数据库字段语句
         testMapper.updataTestDoc(map);
-
         return test.getPlanNo();
     }
 
-
+    /**
+     * Description: 上传文件
+     *
+     * @date 2019年09月24日 15:21
+     * Version 1.0
+     */
     @Override
     public String upload(String planNo, MultipartFile file) throws Exception {
 
@@ -167,21 +215,24 @@ public class TestServiceImpl implements TestService {
         if (file.getSize() == 0) {
             throw new Exception("文件内容不不能为空");
         }
-
         if (StringUtils.isEmpty(planNo) || null == file) {
             throw new Exception("请输入必传值");
         }
         map.put("planNo", planNo);
+//        拼接上传路径
         String savePath = path + File.separator + planNo;
+//        检查路径是否存在
         TestUtil.checkFilePath(savePath);
+//        得到上传的文件名
         String filename = file.getOriginalFilename();
+//        调用执行查询语句
         TestPo byId = testMapper.getById(map);
-
+//        判断路径是否为空
         if (null != byId.getDoc() && !byId.getDoc().equals("") && null != byId.getUrl() && !byId.getUrl().equals("")) {
             throw new Exception("文件已存在");
         }
         try {
-
+//            进行上传
             Integer integer = saveFile(savePath, file, filename);
             if (integer != 1) {
                 throw new Exception("上传文件失败");
@@ -192,15 +243,15 @@ public class TestServiceImpl implements TestService {
         map.put("planNo", planNo);
         map.put("filename", filename);
         map.put("url", savePath + File.separator + filename);
+//        更新到数据库中
         testMapper.updataTestDoc(map);
         return filename;
     }
 
 
-
     /**
      * @return void
-     * @description 上传文件
+     * @description 文件上传
      * @Param [ savePath file ]
      */
     private Integer saveFile(String savePath, MultipartFile file, String filename) throws Exception {
@@ -239,6 +290,5 @@ public class TestServiceImpl implements TestService {
     @Override
     public TestPo getById(Map<String, Object> map) {
         return testMapper.getById(map);
-
     }
 }
