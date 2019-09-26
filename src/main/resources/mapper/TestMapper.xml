@@ -11,6 +11,7 @@
         <result column="doc" property="doc"></result>
         <result column="url" property="url"></result>
     </resultMap>
+
     <insert id="insertTest">
         insert into ceshi (id,plan_no,end_time,stat_time,create_time) values (
             #{list.id},
