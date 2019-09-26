@@ -16,12 +16,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -291,7 +287,6 @@ public class TestServiceImpl implements TestService {
         }
         return 1;
     }
-
 
     @Override
     public TestPo getById(Map<String, Object> map) {
