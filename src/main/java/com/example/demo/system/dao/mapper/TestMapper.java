@@ -26,7 +26,7 @@ public interface TestMapper {
 //    根据id查询
     TestPo getById(Map<String,Object> map);
 //    删除文件更新数据库字段
-    void updataTestDoc(Map<String,Object> map);
+    Integer updataTestDoc(Map<String,Object> map);
 //    删除数据
     Integer deleteById(Map<String, Object> map);
 

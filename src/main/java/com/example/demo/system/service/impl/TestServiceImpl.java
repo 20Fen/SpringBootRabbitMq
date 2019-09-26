@@ -4,6 +4,7 @@ import com.example.demo.system.dao.mapper.TestMapper;
 import com.example.demo.system.model.bo.FindAllTest;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
+import com.example.demo.system.util.CustomException;
 import com.example.demo.system.util.TestUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -53,14 +54,14 @@ public class TestServiceImpl implements TestService {
      */
     @Override
     public PageInfo<TestPo> findAll(Integer page, Integer pageSize, FindAllTest findAllTest) throws Exception {
-//        前台不传分页值后台设置
+//        前台必须传分页值
 //        调用分页插件,执行的语句必须在插件的下面
-        int limit = page != 0 ? page : 1;
-        int offset = pageSize != 0 ? pageSize : 10;
+        int limit = page != null ? page : 1;
+        int offset = pageSize != null ? pageSize : 10;
         PageHelper.startPage(limit, offset);
         List<TestPo> all = testMapper.findAll(findAllTest);
         if (StringUtils.isEmpty(all)) {
-            throw new Exception("查询失败");
+            throw new CustomException("查询失败");
         }
         return new PageInfo<>(all);
     }
@@ -93,7 +94,6 @@ public class TestServiceImpl implements TestService {
             testPo.setId(UUID.randomUUID().toString());
 //        调用执行新建语句
             testMapper.insertTest(testPo);
-            return planNoId;
         } else {
 //            不为空就是修改
             testPo.setPlanNo(planNo);
@@ -101,13 +101,13 @@ public class TestServiceImpl implements TestService {
 //            调用执行查询语句
             TestPo testPo1 = testMapper.getById(map);
             if (null == testPo1) {
-                throw new Exception("数据不存在");
+                throw new CustomException("数据不存在");
             }
             testPo.setId(testPo1.getId());
 //            调用执行修改语句
-            testMapper.updataTest(testPo);
-            return testPo1.getPlanNo();
+           testMapper.updataTest(testPo);
         }
+        return planNoId;
     }
 
     /**
@@ -122,14 +122,14 @@ public class TestServiceImpl implements TestService {
 
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(planNo)) {
-            throw new Exception("编号不能为空");
+            throw new CustomException("编号不能为空");
         }
 
         map.put("planNo", planNo);
 //           调用执行查询语句
         TestPo test = testMapper.getById(map);
         if (null == test) {
-            throw new Exception("查询数据不存在");
+            throw new CustomException("查询数据不存在");
         }
         return test;
     }
@@ -146,21 +146,23 @@ public class TestServiceImpl implements TestService {
 
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(planNo)) {
-            throw new Exception("planNo为空");
+            throw new CustomException("planNo为空");
         }
 
         map.put("planNo", planNo);
 //        调用执行查询语句
         TestPo test = testMapper.getById(map);
         if (null == test) {
-            throw new Exception("数据不存在");
+            throw new CustomException("数据不存在");
         }
+        if(!test.getDoc().equals("") && null != test.getDoc() || null != test.getUrl() && !test.getUrl().equals("") ){
 //        得到数据库中的存储路径
-        Path path = Paths.get(test.getUrl());
+            Path path = Paths.get(test.getUrl());
 //        删除文件
-        boolean exists = Files.deleteIfExists(path);
-        if (!exists) {
-            throw new Exception("删除文件失败");
+            boolean exists = Files.deleteIfExists(path);
+            if (!exists) {
+                throw new CustomException("删除文件失败");
+            }
         }
 //        调用执行删除语句
         Integer integer = testMapper.deleteById(map);
@@ -187,14 +189,14 @@ public class TestServiceImpl implements TestService {
 //        调用执行查询语句
         TestPo test = testMapper.getById(map);
         if (null == test) {
-            throw new Exception("数据不存在");
+            throw new CustomException("数据不存在");
         }
 //        得到数据库中的文件路径
         Path path = Paths.get(test.getUrl());
 //        删除文件
         boolean exists = Files.deleteIfExists(path);
         if (!exists) {
-            throw new Exception("删除文件失败");
+            throw new CustomException("删除文件失败");
         }
         map.put("filename", "");
         map.put("url", "");
@@ -214,10 +216,10 @@ public class TestServiceImpl implements TestService {
 
         Map<String, Object> map = new HashMap<>();
         if (file.getSize() == 0) {
-            throw new Exception("文件内容不不能为空");
+            throw new CustomException("文件内容不不能为空");
         }
         if (StringUtils.isEmpty(planNo) || null == file) {
-            throw new Exception("请输入必传值");
+            throw new CustomException("请输入必传值");
         }
         map.put("planNo", planNo);
 //        拼接上传路径
@@ -229,14 +231,14 @@ public class TestServiceImpl implements TestService {
 //        调用执行查询语句
         TestPo byId = testMapper.getById(map);
 //        判断路径是否为空
-        if (null != byId.getDoc() && !byId.getDoc().equals("") && null != byId.getUrl() && !byId.getUrl().equals("")) {
-            throw new Exception("文件已存在");
+        if (null != byId.getDoc() || !byId.getDoc().equals("") || null != byId.getUrl() || !byId.getUrl().equals("")) {
+            throw new CustomException("文件已存在");
         }
         try {
 //            进行上传
             Integer integer = saveFile(savePath, file, filename);
             if (integer != 1) {
-                throw new Exception("上传文件失败");
+                throw new CustomException("上传文件失败");
             }
         } catch (IOException e) {
             log.error(e);
@@ -245,8 +247,11 @@ public class TestServiceImpl implements TestService {
         map.put("filename", filename);
         map.put("url", savePath + File.separator + filename);
 //        更新到数据库中
-        testMapper.updataTestDoc(map);
-        return filename;
+        Integer doc = testMapper.updataTestDoc(map);
+        if(doc == 1){
+            return filename;
+        }
+        return "2";
     }
 
 
@@ -282,7 +287,7 @@ public class TestServiceImpl implements TestService {
         System.out.println(usableSpace);
 //        判断剩余的磁盘空间是否小于当前上传的文件大小
         if (space < size) {
-            throw new Exception("磁盘空间不足");
+            throw new CustomException("磁盘空间不足");
         }
         return 1;
     }
