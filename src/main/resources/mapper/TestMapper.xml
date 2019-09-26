@@ -47,7 +47,8 @@
              DATE_FORMAT(end_time,'%Y-%m-%d-%T') end_time,
              DATE_FORMAT(stat_time,'%Y-%m-%d-%T') stat_time,
              DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
-             doc
+             doc,
+             url
             from ceshi
             <where>
                 <if test="model.planNo != null and model.planNo != '' ">
@@ -64,6 +65,7 @@
                     and create_time=str_to_date(#{model.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
                 </if>
             </where>
+            order by create_time desc
 
     </select>
     <select id="getById" resultMap="getTest" parameterType="map">
