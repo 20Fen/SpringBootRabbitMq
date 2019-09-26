@@ -41,7 +41,6 @@ public class TestController {
     @ApiOperation("按条件查询，查询全部")
     public PageInfo<TestPo> findAll(Integer page, Integer pageSize, FindAllTest findAllTest) throws Exception {
 
-
         PageInfo<TestPo> all = testService.findAll(page, pageSize, findAllTest);
         return all;
     }
@@ -62,7 +61,6 @@ public class TestController {
     public TestPo byId(String planNo) throws Exception {
 
         TestPo test = testService.getById(planNo);
-
         return test;
     }
 
@@ -71,7 +69,6 @@ public class TestController {
     public String deleteById(String planNo) throws Exception {
 
         String byId = testService.deleteById(planNo);
-
         return byId;
     }
 
@@ -80,7 +77,6 @@ public class TestController {
     public String deleteUrl(String planNo) throws Exception {
 
         String byId = testService.deleteUrl(planNo);
-
         return byId;
     }
 
@@ -89,7 +85,6 @@ public class TestController {
     public String upload(String planNo, MultipartFile file) throws Exception {
 
         String name = testService.upload(planNo, file);
-
         return name;
     }
 

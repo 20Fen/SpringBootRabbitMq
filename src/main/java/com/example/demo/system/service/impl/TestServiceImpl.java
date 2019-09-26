@@ -55,8 +55,8 @@ public class TestServiceImpl implements TestService {
     public PageInfo<TestPo> findAll(Integer page, Integer pageSize, FindAllTest findAllTest) throws Exception {
 //        前台不传分页值后台设置
 //        调用分页插件,执行的语句必须在插件的下面
-        int limit = page != null ? page : 1;
-        int offset = pageSize != null ? pageSize : 10;
+        int limit = page != 0 ? page : 1;
+        int offset = pageSize != 0 ? pageSize : 10;
         PageHelper.startPage(limit, offset);
         List<TestPo> all = testMapper.findAll(findAllTest);
         if (StringUtils.isEmpty(all)) {
@@ -103,6 +103,7 @@ public class TestServiceImpl implements TestService {
             if (null == testPo1) {
                 throw new Exception("数据不存在");
             }
+            testPo.setId(testPo1.getId());
 //            调用执行修改语句
             testMapper.updataTest(testPo);
             return testPo1.getPlanNo();
