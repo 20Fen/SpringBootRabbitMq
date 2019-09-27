@@ -31,8 +31,8 @@ import java.util.Map;
  */
 
 @RestController
-@Api(tags="springBoot测试")
-public class TestController extends BaseController{
+@Api(tags = "springBoot测试")
+public class TestController extends BaseController {
 
     @Resource
     private TestService testService;
@@ -62,10 +62,10 @@ public class TestController extends BaseController{
     public AjaxResult byId(String planNo) throws Exception {
 
         TestPo test = testService.getById(planNo);
-        if(StringUtils.isEmpty(test)){
+        if (StringUtils.isEmpty(test)) {
             return success(ReturnInfo.QUERY_FAIL_MSG);
         }
-        return success((ReturnInfo.QUERY_SUCCESS_MSG),test);
+        return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
 
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
@@ -73,10 +73,10 @@ public class TestController extends BaseController{
     public AjaxResult deleteById(String planNo) throws Exception {
 
         String byId = testService.deleteById(planNo);
-        if(StringUtils.isEmpty(byId)){
+        if (StringUtils.isEmpty(byId)) {
             return success(ReturnInfo.DEL_FAIL_MSG);
         }
-        return success((ReturnInfo.DEL_SUCCESS_MSG),byId);
+        return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
 
     @RequestMapping(value = "/deleteUrl", method = RequestMethod.GET)
@@ -84,10 +84,10 @@ public class TestController extends BaseController{
     public AjaxResult deleteUrl(String planNo) throws Exception {
 
         String byId = testService.deleteUrl(planNo);
-        if(StringUtils.isEmpty(byId)){
+        if (StringUtils.isEmpty(byId)) {
             return success(ReturnInfo.DEL_FAIL_MSG);
         }
-        return success((ReturnInfo.DEL_SUCCESS_MSG),byId);
+        return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -95,10 +95,10 @@ public class TestController extends BaseController{
     public AjaxResult upload(String planNo, MultipartFile file) throws Exception {
 
         String name = testService.upload(planNo, file);
-        if(name.equals("2")){
+        if (name.equals("2")) {
             return success(ReturnInfo.UPLOAD_FAIL_MSG);
         }
-        return success((ReturnInfo.UPLOAD_SUCCESS_MSG),name);
+        return success((ReturnInfo.UPLOAD_SUCCESS_MSG), name);
     }
 
     @RequestMapping(value = "/downLoad", method = RequestMethod.GET)
@@ -138,10 +138,10 @@ public class TestController extends BaseController{
 
         for (MultipartFile multipartFile : file) {
             String name = testService.upload(planNo, multipartFile);
-            if(name.equals("2")){
+            if (name.equals("2")) {
                 return success(ReturnInfo.UPLOAD_FAIL_MSG);
             }
-            return success((ReturnInfo.UPLOAD_SUCCESS_MSG),name);
+            return success((ReturnInfo.UPLOAD_SUCCESS_MSG), name);
         }
         return success((ReturnInfo.UPLOAD_SUCCESS_MSG));
     }
