@@ -31,7 +31,7 @@ import java.util.Map;
  */
 
 @RestController
-@Api("springBoot测试")
+@Api(tags="springBoot测试")
 public class TestController extends BaseController{
 
     @Resource
