@@ -132,4 +132,18 @@ public class TestController extends BaseController{
         return success(ReturnInfo.DOWNLOAD_SUCCESS_MSG);
     }
 
+    @RequestMapping(value = "/uploadAll", method = RequestMethod.POST)
+    @ApiOperation("上传多个文件")
+    public AjaxResult uploadAll(String planNo, MultipartFile[] file) throws Exception {
+
+        for (MultipartFile multipartFile : file) {
+            String name = testService.upload(planNo, multipartFile);
+            if(name.equals("2")){
+                return success(ReturnInfo.UPLOAD_FAIL_MSG);
+            }
+            return success((ReturnInfo.UPLOAD_SUCCESS_MSG),name);
+        }
+        return success((ReturnInfo.UPLOAD_SUCCESS_MSG));
+    }
+
 }
