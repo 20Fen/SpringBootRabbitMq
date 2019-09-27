@@ -153,9 +153,7 @@ public class TestServiceImpl implements TestService {
         if (null == test) {
             throw new CustomException("数据不存在");
         }
-//        获取到存储数据的路径
-        String filepath = test.getUrl();
-        if (!test.getDoc().equals("") && null != test.getDoc() || null != filepath && !filepath.equals("")) {
+        if (!test.getDoc().equals("") && null != test.getDoc() || null != test.getUrl() && !test.getUrl().equals("")) {
 //        得到数据库中的文件路径
             Path path1 = Paths.get(test.getUrl());
 //        删除文件
@@ -164,7 +162,7 @@ public class TestServiceImpl implements TestService {
                 throw new CustomException("删除文件失败");
             }
 //        按照 / 进行截取
-            String path = filepath.substring(0, filepath.lastIndexOf(File.separator));
+            String path = test.getUrl().substring(0, test.getUrl().lastIndexOf(File.separator));
 //        删除文件
             TestUtil.delFolder(path);
         }
