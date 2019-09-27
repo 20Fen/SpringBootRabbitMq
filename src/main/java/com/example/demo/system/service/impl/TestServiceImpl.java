@@ -9,6 +9,8 @@ import com.example.demo.system.util.TestUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.SystemUtils;
+import org.apache.logging.log4j.core.config.plugins.util.ResolverUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -151,14 +153,13 @@ public class TestServiceImpl implements TestService {
         if (null == test) {
             throw new CustomException("数据不存在");
         }
-        if(!test.getDoc().equals("") && null != test.getDoc() || null != test.getUrl() && !test.getUrl().equals("") ){
-//        得到数据库中的存储路径
-            Path path = Paths.get(test.getUrl());
+//        获取到存储数据的路径
+        String filepath = test.getUrl();
+        if(!test.getDoc().equals("") && null != test.getDoc() || null != filepath && !filepath.equals("") ){
+//            按照/进行截取
+            String path = filepath.substring(0, filepath.lastIndexOf(File.separator));
 //        删除文件
-            boolean exists = Files.deleteIfExists(path);
-            if (!exists) {
-                throw new CustomException("删除文件失败");
-            }
+            TestUtil.delFolder(path);
         }
 //        调用执行删除语句
         Integer integer = testMapper.deleteById(map);
@@ -227,7 +228,7 @@ public class TestServiceImpl implements TestService {
 //        调用执行查询语句
         TestPo byId = testMapper.getById(map);
 //        判断路径是否为空
-        if (null != byId.getDoc() || !byId.getDoc().equals("") || null != byId.getUrl() || !byId.getUrl().equals("")) {
+        if ((null != byId.getDoc() && !byId.getDoc().equals("")) || (null != byId.getUrl() && !byId.getUrl().equals(""))) {
             throw new CustomException("文件已存在");
         }
         try {

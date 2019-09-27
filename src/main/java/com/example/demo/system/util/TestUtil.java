@@ -19,6 +19,71 @@ import java.util.Map;
 @Log4j2
 public class TestUtil {
 
+    /**
+     * @return boolean
+     * @description 删除文件下所有文件
+     * @Param [ path ]
+     * @date 2019/8/29 16:29
+     */
+    private static boolean delAllFile(String path) {
+        boolean flag = false;
+        File file = new File(path);
+//        文件是否存在
+        if (!file.exists()) {
+            return flag;
+        }
+//        是不是目录
+        if (!file.isDirectory()) {
+            return flag;
+        }
+//        得到文件夹中的文件
+        String[] tempList = file.list();
+        File temp = null;
+        for (int i = 0; i < tempList.length; i++) {
+            if (path.endsWith(File.separator)) {
+                temp = new File(path + tempList[i]);
+            } else {
+                temp = new File(path + File.separator + tempList[i]);
+            }
+            if (temp.isFile()) {
+//                对目录进行删除
+                boolean delete = temp.delete();
+                if (!delete) {
+                    log.error("删除失败");
+                }
+            }
+            if (temp.isDirectory()) {
+                //先删除文件夹里面的文件
+                delAllFile(path + File.separator + tempList[i]);
+                // 再删除空文件夹
+                delFolder(path + File.separator + tempList[i]);
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    /**
+     * @return void
+     * @description 删除空文件夹
+     * @Param [ folderPath ]
+     * @date 2019/8/29 16:30
+     */
+    public static void delFolder(String folderPath) {
+        try {
+            //删除完里面所有内容
+            delAllFile(folderPath);
+            String filePath = folderPath;
+            File myFilePath = new File(filePath);
+            //删除空文件夹
+            boolean myFile = myFilePath.delete();
+            if (!myFile) {
+                log.error("删除失败");
+            }
+        } catch (Exception e) {
+            log.error(e);
+        }
+    }
 
     /**
      * @return void
@@ -47,10 +112,11 @@ public class TestUtil {
 
     /**
      * Description:  遍历文件用的递归
+     *
      * @param file:
      * @param map:
      * @return void
-     * @date  2019/9/26 15:35
+     * @date 2019/9/26 15:35
      */
     public static void listFile(File file, Map<String, String> map) {
         String property = System.getProperty("user.dir");
@@ -67,13 +133,14 @@ public class TestUtil {
         }
     }
 
-/**
- * Description:  下载文件
- * @param fileUrl:
- * @param response:
- * @return void
- * @date  2019/9/26 15:34
- */
+    /**
+     * Description:  下载文件
+     *
+     * @param fileUrl:
+     * @param response:
+     * @return void
+     * @date 2019/9/26 15:34
+     */
     public static void down(String fileUrl, HttpServletResponse response) throws IOException {
         //读取下载的文件
         FileInputStream in = new FileInputStream(fileUrl);
