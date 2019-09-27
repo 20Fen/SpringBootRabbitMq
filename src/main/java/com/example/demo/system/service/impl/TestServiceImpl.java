@@ -160,10 +160,10 @@ public class TestServiceImpl implements TestService {
             Path path1 = Paths.get(test.getUrl());
 //        删除文件
             boolean exists = Files.deleteIfExists(path1);
-            if(!exists){
+            if (!exists) {
                 throw new CustomException("删除文件失败");
             }
-//            按照 / 进行截取
+//        按照 / 进行截取
             String path = filepath.substring(0, filepath.lastIndexOf(File.separator));
 //        删除文件
             TestUtil.delFolder(path);
