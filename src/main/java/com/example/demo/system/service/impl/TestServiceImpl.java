@@ -156,7 +156,7 @@ public class TestServiceImpl implements TestService {
 //        获取到存储数据的路径
         String filepath = test.getUrl();
         if(!test.getDoc().equals("") && null != test.getDoc() || null != filepath && !filepath.equals("") ){
-//            按照/进行截取
+//            按照 / 进行截取
             String path = filepath.substring(0, filepath.lastIndexOf(File.separator));
 //        删除文件
             TestUtil.delFolder(path);
