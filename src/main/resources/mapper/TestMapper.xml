@@ -44,8 +44,8 @@
             select
              id,
              plan_no,
-             DATE_FORMAT(end_time,'%Y-%m-%d-%T') end_time,
-             DATE_FORMAT(stat_time,'%Y-%m-%d-%T') stat_time,
+             DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s') end_time,
+             DATE_FORMAT(stat_time,'%Y-%m-%d %H:%i:%s') stat_time,
              DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
              doc,
              url

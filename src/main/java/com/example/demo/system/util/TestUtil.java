@@ -72,7 +72,7 @@ public class TestUtil {
     public static void delFolder(String folderPath) {
         try {
             //删除完里面所有内容
-            delAllFile(folderPath);
+//            delAllFile(folderPath);
             String filePath = folderPath;
             File myFilePath = new File(filePath);
             //删除空文件夹

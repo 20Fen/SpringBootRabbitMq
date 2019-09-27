@@ -103,7 +103,7 @@ public class TestServiceImpl implements TestService {
             }
             testPo.setId(testPo1.getId());
 //            调用执行修改语句
-           testMapper.updataTest(testPo);
+            testMapper.updataTest(testPo);
         }
         return planNoId;
     }
@@ -155,7 +155,14 @@ public class TestServiceImpl implements TestService {
         }
 //        获取到存储数据的路径
         String filepath = test.getUrl();
-        if(!test.getDoc().equals("") && null != test.getDoc() || null != filepath && !filepath.equals("") ){
+        if (!test.getDoc().equals("") && null != test.getDoc() || null != filepath && !filepath.equals("")) {
+//        得到数据库中的文件路径
+            Path path1 = Paths.get(test.getUrl());
+//        删除文件
+            boolean exists = Files.deleteIfExists(path1);
+            if(!exists){
+                throw new CustomException("删除文件失败");
+            }
 //            按照 / 进行截取
             String path = filepath.substring(0, filepath.lastIndexOf(File.separator));
 //        删除文件
@@ -245,7 +252,7 @@ public class TestServiceImpl implements TestService {
         map.put("url", savePath + File.separator + filename);
 //        更新到数据库中
         Integer doc = testMapper.updataTestDoc(map);
-        if(doc == 1){
+        if (doc == 1) {
             return filename;
         }
         return "2";
