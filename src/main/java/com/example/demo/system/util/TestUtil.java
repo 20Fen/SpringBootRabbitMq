@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Map;
 
 /**
@@ -159,4 +161,35 @@ public class TestUtil {
         // 关闭输出流
         out.close();
     }
+
+    /**
+     * Description: 上个月月头
+     *
+     * @param month:
+     * @return
+     * @date 2019/9/30 9:14
+     */
+    public static void lastMonth(String month) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar instance = Calendar.getInstance();
+        instance.set(Calendar.MONTH,-1);
+        instance.set(Calendar.DAY_OF_MONTH,1);
+        String format1 = format.format(instance.getTime() + "00:00:00");
+    }
+
+    /**
+     * Description: 上个月月尾
+     *
+     * @param month:
+     * @return
+     * @date 2019/9/30 9:14
+     */
+    public static void endMonth(String month) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar instance = Calendar.getInstance();
+        instance.set(Calendar.DAY_OF_MONTH,0);
+        String format1 = format.format(instance.getTime() + "23:59:59");
+    }
+
 }
+
