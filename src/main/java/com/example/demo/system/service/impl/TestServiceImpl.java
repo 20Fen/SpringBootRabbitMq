@@ -5,6 +5,7 @@ import com.example.demo.system.model.bo.FindAllTest;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
 import com.example.demo.system.util.CustomException;
+import com.example.demo.system.util.DateUtil;
 import com.example.demo.system.util.TestUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -146,8 +147,8 @@ public class TestServiceImpl implements TestService {
         if (StringUtils.isEmpty(planNo)) {
             throw new CustomException("planNo编号不能为空");
         }
-        String lastMonth = TestUtil.lastMonth();
-        String endMonth = TestUtil.endMonth();
+        String lastMonth = DateUtil.getPreviousMonthDayBegin();
+        String endMonth = DateUtil.getPreviousMonthDayEnd();
         map.put("planNo", planNo);
         map.put("statTime", lastMonth);
         map.put("endTime", endMonth);
