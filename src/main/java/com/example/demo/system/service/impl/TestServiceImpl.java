@@ -163,7 +163,7 @@ public class TestServiceImpl implements TestService {
             }
 //        按照 / 进行截取
             String path = test.getUrl().substring(0, test.getUrl().lastIndexOf(File.separator));
-//        删除文件
+//        删除文件夹
             TestUtil.delFolder(path);
         }
 //        调用执行删除语句
