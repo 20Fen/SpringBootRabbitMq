@@ -120,7 +120,7 @@ public class TestServiceImpl implements TestService {
 
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(planNo)) {
-            throw new CustomException("编号不能为空");
+            throw new CustomException("planNo编号不能为空");
         }
 
         map.put("planNo", planNo);
@@ -144,7 +144,7 @@ public class TestServiceImpl implements TestService {
 
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(planNo)) {
-            throw new CustomException("编号不能为空");
+            throw new CustomException("planNo编号不能为空");
         }
         String lastMonth = TestUtil.lastMonth();
         String endMonth = TestUtil.endMonth();
@@ -170,7 +170,7 @@ public class TestServiceImpl implements TestService {
 
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(planNo)) {
-            throw new CustomException("planNo为空");
+            throw new CustomException("planNo编号不能为空");
         }
 
         map.put("planNo", planNo);
