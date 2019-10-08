@@ -35,6 +35,9 @@ public interface TestService {
     //    删除数据并删除文件
     String deleteById(String planNo) throws Exception;
 
+    //    批量删除数据并删除文件
+    String delete(String[] planNo) throws Exception;
+
     //    删除文件并更新数据库字段
     String deleteUrl(String planNo) throws Exception;
 

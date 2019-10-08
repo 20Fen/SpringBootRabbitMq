@@ -88,6 +88,17 @@ public class TestController extends BaseController {
         return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @ApiOperation("批量删除数据")
+    public AjaxResult deleteById(String[] planNo) throws Exception {
+
+        String byId = testService.delete(planNo);
+        if (StringUtils.isEmpty(byId)) {
+            return success(ReturnInfo.DEL_FAIL_MSG);
+        }
+        return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
+    }
+
     @RequestMapping(value = "/deleteUrl", method = RequestMethod.GET)
     @ApiOperation("删除文件")
     public AjaxResult deleteUrl(String planNo) throws Exception {
