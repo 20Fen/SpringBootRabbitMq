@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,9 +78,9 @@ public class TestController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteById/{planNo}", method = RequestMethod.GET)
     @ApiOperation("删除数据")
-    public AjaxResult deleteById(String planNo) throws Exception {
+    public AjaxResult deleteById(@PathVariable("planNo")String planNo) throws Exception {
 
         String byId = testService.deleteById(planNo);
         if (StringUtils.isEmpty(byId)) {
