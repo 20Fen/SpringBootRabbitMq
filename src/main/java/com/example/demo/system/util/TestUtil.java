@@ -8,28 +8,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Map;
 
 /**
- * Description:
- *
- * @author yangfl
- * @date 2019年09月25日 9:33
- * Version 1.0
+ * Description: 工具类
  */
 @Log4j2
 public class TestUtil {
 
 
     /**
-     * @return boolean
      * @description 删除文件下所有文件
-     * @Param [ path ]
-     * @date 2019/8/29 16:29
      */
     private static boolean delAllFile(String path) {
         boolean flag = false;
@@ -118,11 +107,6 @@ public class TestUtil {
 
     /**
      * Description:  遍历文件用的递归
-     *
-     * @param file:
-     * @param map:
-     * @return void
-     * @date 2019/9/26 15:35
      */
     public static void listFile(File file, Map<String, String> map) {
         String property = System.getProperty("user.dir");
@@ -141,11 +125,6 @@ public class TestUtil {
 
     /**
      * Description:  下载文件
-     *
-     * @param fileUrl:
-     * @param response:
-     * @return void
-     * @date 2019/9/26 15:34
      */
     public static void down(String fileUrl, HttpServletResponse response) throws IOException {
         //读取下载的文件
@@ -165,8 +144,5 @@ public class TestUtil {
         // 关闭输出流
         out.close();
     }
-
-
-
 }
 

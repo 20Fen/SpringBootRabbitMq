@@ -24,10 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Description:
- *
- * @date 2019年09月24日 15:00
- * Version 1.0
+ * Description: controller
  */
 
 @RestController

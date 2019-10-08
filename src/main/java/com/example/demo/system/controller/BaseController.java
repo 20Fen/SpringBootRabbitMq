@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 
 /**
  * Description:组件控制器封装
- *
- * @date 2019年09月26日 16:21
- * Version 1.0
  */
 @Log4j2
 @ControllerAdvice

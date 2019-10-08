@@ -2,9 +2,6 @@ package com.example.demo.system.util;
 
 /**
  * Description: 自定义异常
- *
- * @date 2019年09月26日 16:23
- * Version 1.0
  */
 public class CustomException extends Exception {
     private static final long	serialVersionUID	= 12L;

@@ -10,8 +10,6 @@ import com.example.demo.system.util.TestUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.SystemUtils;
-import org.apache.logging.log4j.core.config.plugins.util.ResolverUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +29,6 @@ import java.util.UUID;
 
 /**
  * Description:
- *
- * @date 2019年09月24日 15:21
- * Version 1.0
  */
 @Log4j2
 @Service
@@ -47,9 +42,6 @@ public class TestServiceImpl implements TestService {
 
     /**
      * Description: 根据条件进行查询
-     *
-     * @date 2019年09月24日 15:21
-     * Version 1.0
      */
     @Override
     public PageInfo<TestPo> findAll(Integer page, Integer pageSize, FindAllTest findAllTest) throws Exception {
@@ -67,9 +59,6 @@ public class TestServiceImpl implements TestService {
 
     /**
      * Description: 新建和修改数据
-     *
-     * @date 2019年09月24日 15:21
-     * Version 1.0
      */
     @Override
     @Transactional
@@ -111,9 +100,6 @@ public class TestServiceImpl implements TestService {
 
     /**
      * Description: 根据ID查询数据
-     *
-     * @date 2019年09月24日 15:21
-     * Version 1.0
      */
     @Override
     @Transactional
@@ -135,9 +121,6 @@ public class TestServiceImpl implements TestService {
 
     /**
      * Description: 根据ID查询上个月数据
-     *
-     * @date 2019年09月24日 15:21
-     * Version 1.0
      */
     @Override
     @Transactional
@@ -161,9 +144,6 @@ public class TestServiceImpl implements TestService {
     }
     /**
      * Description: 删除数据并且删除文件
-     *
-     * @date 2019年09月24日 15:21
-     * Version 1.0
      */
     @Override
     @Transactional
@@ -203,9 +183,6 @@ public class TestServiceImpl implements TestService {
 
     /**
      * Description: 删除文件并更新数据库字段
-     *
-     * @date 2019年09月24日 15:21
-     * Version 1.0
      */
     @Override
     public String deleteUrl(String planNo) throws Exception {
@@ -236,9 +213,6 @@ public class TestServiceImpl implements TestService {
 
     /**
      * Description: 上传文件
-     *
-     * @date 2019年09月24日 15:21
-     * Version 1.0
      */
     @Override
     public String upload(String planNo, MultipartFile file) throws Exception {
@@ -285,9 +259,7 @@ public class TestServiceImpl implements TestService {
 
 
     /**
-     * @return void
      * @description 文件上传
-     * @Param [ savePath file ]
      */
     private Integer saveFile(String savePath, MultipartFile file, String filename) throws Exception {
         Integer num = checkFileSize(file.getSize(), savePath);
@@ -303,9 +275,7 @@ public class TestServiceImpl implements TestService {
     }
 
     /**
-     * @return java.lang.Boolean
      * @description 检测文件大小
-     * @Param [ size ]
      */
     private Integer checkFileSize(long size, String savePath) throws Exception {
 //        获取存储当前文件后剩余的磁盘空间

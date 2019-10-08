@@ -1,10 +1,7 @@
 package com.example.demo.system.util;
 
 /**
- * Description:
- *
- * @date 2019年09月26日 16:17
- * Version 1.0
+ * Description: 自定义字符串
  */
 public interface ReturnInfo {
 

@@ -1,11 +1,7 @@
 package com.example.demo.system.util;
 
 /**
- * Description:
- *
- * @author yangfl
- * @date 2019年09月24日 15:28
- * Version 1.0
+ * Description: 返回值
  */
 public class AjaxResult {
     public static final int		AJAX_STATUS_SUCCESS		= 0;
