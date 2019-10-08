@@ -68,6 +68,18 @@ public class TestController extends BaseController {
         return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
 
+    @RequestMapping(value = "/byIdMonth", method = RequestMethod.GET)
+    @ApiOperation("根据id查询上个月数据")
+    public AjaxResult byIdMonth(String planNo) throws Exception {
+
+        TestPo test = testService.getByIdMonth(planNo);
+        if (StringUtils.isEmpty(test)) {
+            return success(ReturnInfo.QUERY_FAIL_MSG);
+        }
+        return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
+    }
+
+
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     @ApiOperation("删除数据")
     public AjaxResult deleteById(String planNo) throws Exception {

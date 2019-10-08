@@ -133,6 +133,32 @@ public class TestServiceImpl implements TestService {
     }
 
     /**
+     * Description: 根据ID查询上个月数据
+     *
+     * @date 2019年09月24日 15:21
+     * Version 1.0
+     */
+    @Override
+    @Transactional
+    public TestPo getByIdMonth(String planNo) throws Exception {
+
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtils.isEmpty(planNo)) {
+            throw new CustomException("编号不能为空");
+        }
+        String lastMonth = TestUtil.lastMonth();
+        String endMonth = TestUtil.endMonth();
+        map.put("planNo", planNo);
+        map.put("statTime", lastMonth);
+        map.put("endTime", endMonth);
+//           调用执行查询语句
+        TestPo test = testMapper.getByIdMonth(map);
+        if (null == test) {
+            throw new CustomException("查询数据不存在");
+        }
+        return test;
+    }
+    /**
      * Description: 删除数据并且删除文件
      *
      * @date 2019年09月24日 15:21

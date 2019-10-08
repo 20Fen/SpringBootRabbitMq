@@ -1,5 +1,6 @@
 package com.example.demo.system.util;
 
+import com.github.pagehelper.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -20,6 +23,11 @@ import java.util.Map;
  */
 @Log4j2
 public class TestUtil {
+
+    /**
+     * 标准日期时间格式，精确到秒
+     */
+    public final static String	NORM_DATETIME_PATTERN	= "yyyy-MM-dd HH:mm:ss";
 
     /**
      * @return boolean
@@ -165,30 +173,50 @@ public class TestUtil {
     /**
      * Description: 上个月月头
      *
-     * @param month:
+     * @param :
      * @return
      * @date 2019/9/30 9:14
      */
-    public static void lastMonth(String month) {
+    public static String lastMonth() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar instance = Calendar.getInstance();
-        instance.set(Calendar.MONTH,-1);
-        instance.set(Calendar.DAY_OF_MONTH,1);
-        String format1 = format.format(instance.getTime() + "00:00:00");
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        String startTime = format.format(calendar.getTime()) + " 00:00:00";
+        return startTime;
     }
 
     /**
      * Description: 上个月月尾
      *
-     * @param month:
+     * @param :
      * @return
      * @date 2019/9/30 9:14
      */
-    public static void endMonth(String month) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar instance = Calendar.getInstance();
-        instance.set(Calendar.DAY_OF_MONTH,0);
-        String format1 = format.format(instance.getTime() + "23:59:59");
+    public static String endMonth() {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        String str = sf.format(calendar.getTime()) + " 23:59:59";
+        return str;
+    }
+
+    /**
+     * 格式yyyy-MM-dd HH:mm:ss
+     *
+     * @param dateString 标准形式的时间字符串
+     * @return 日期对象
+     */
+    public static LocalDateTime parseDateTime(String dateString) throws Exception {
+        try {
+            if (StringUtil.isEmpty(dateString)) {
+                return null;
+            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN);
+            return LocalDateTime.parse(dateString, formatter);
+        } catch (Exception e) {
+            throw new Exception(String.format("Parse [%s] with format [%s] error!", dateString, NORM_DATETIME_PATTERN), e);
+        }
     }
 
 }

@@ -55,14 +55,14 @@
                     and plan_no=#{model.planNo}
                 </if>
                 <if test="model.endTime != null and model.endTime!= '' and model.statTime != null and model.statTime!= ''">
-                    and (stat_time <![CDATA[ <= ]]> str_to_date(#{model.endTime},'%Y-%m-%d %H:%i:%s') and end_time <![CDATA[ >= ]]> str_to_date(#{model.statTime},'%Y-%m-%d %H:%i:%s'))
+                    and (stat_time <![CDATA[ <= ]]> DATE_FORMAT(#{model.endTime},'%Y-%m-%d %H:%i:%s') and end_time <![CDATA[ >= ]]> DATE_FORMAT(#{model.statTime},'%Y-%m-%d %H:%i:%s'))
                 </if>
 
 <!--                <if test="model.statTime != null and model.statTime!= '' ">-->
 <!--                    and stat_time=str_to_date(#{model.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s')-->
 <!--                </if>-->
                 <if test="model.createTime != null and model.createTime!= '' ">
-                    and create_time=str_to_date(#{model.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
+                    and create_time = DATE_FORMAT(#{model.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
                 </if>
             </where>
             order by create_time desc
@@ -78,5 +78,24 @@
             doc,
             url
              from ceshi where plan_no = #{planNo}
+    </select>
+    <select id="getByIdMonth" resultMap="getTest" parameterType="map">
+         select
+            id,
+            plan_no,
+            DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s') end_time,
+            DATE_FORMAT(stat_time,'%Y-%m-%d %H:%i:%s') stat_time,
+            DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
+            doc,
+            url
+        from ceshi
+        <where>
+        <if test="planNo != null and planNo != '' ">
+            and plan_no=#{planNo}
+        </if>
+        <if test="endTime != null and endTime!= '' and statTime != null and statTime!= ''">
+            and (stat_time <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s') and end_time <![CDATA[ >= ]]> DATE_FORMAT(#{statTime},'%Y-%m-%d %H:%i:%s'))
+        </if>
+        </where>
     </select>
 </mapper>
