@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Description:
+ * Description: mapper接口类
  */
 @Mapper
 public interface TestMapper {
