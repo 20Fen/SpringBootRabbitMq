@@ -59,10 +59,7 @@ public class TestUtil {
     }
 
     /**
-     * @return void
      * @description 删除空文件夹
-     * @Param [ folderPath ]
-     * @date 2019/8/29 16:30
      */
     public static void delFolder(String folderPath) {
         try {
@@ -81,9 +78,7 @@ public class TestUtil {
     }
 
     /**
-     * @return void
      * @description 判断路径是否存在
-     * @Param [ path ]
      */
     public static void checkFilePath(String path) {
         File targetFile = new File(path);
@@ -94,9 +89,7 @@ public class TestUtil {
     }
 
     /**
-     * @return void
      * @description 获取当前操作系统的可用空间
-     * @Param [ dirName ]
      */
     public static Long getFreeDiskSpace(String dirName) {
         File dir = new File(dirName);

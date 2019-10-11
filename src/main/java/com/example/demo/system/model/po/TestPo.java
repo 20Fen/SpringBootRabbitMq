@@ -4,8 +4,6 @@ import com.example.demo.system.model.bo.BaseProtocolIn;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * Description: 数据库model
  */

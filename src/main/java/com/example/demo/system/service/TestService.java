@@ -1,19 +1,13 @@
 package com.example.demo.system.service;
 
-import com.example.demo.system.model.bo.FindAllTest;
 import com.example.demo.system.model.po.TestPo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * Description:
- *
- * @author yangfl
- * @date 2019年09月24日 15:20
- * Version 1.0
+ * Description: 接口类
  */
 
 public interface TestService {
