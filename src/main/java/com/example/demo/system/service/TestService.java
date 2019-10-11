@@ -18,7 +18,7 @@ import java.util.Map;
 
 public interface TestService {
     //    根据条件查询
-    PageInfo<TestPo> findAll(Integer page, Integer pageSize, FindAllTest findAllTest) throws Exception;
+    PageInfo<TestPo> findAll(Integer page, Integer pageSize,Map<String,Object> map) throws Exception;
 
     //    新建和修改
     String insert(TestPo test) throws Exception;

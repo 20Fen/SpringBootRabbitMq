@@ -11,21 +11,19 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Description: controller
+ * Description: controller restful风格
  */
 
 @RestController
@@ -35,17 +33,27 @@ public class TestController extends BaseController {
     @Resource
     private TestService testService;
 
-    @RequestMapping(value = "/findAll", method = RequestMethod.POST)
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     @ApiOperation("按条件查询，查询全部")
-    public PageInfo<TestPo> findAll(Integer page, Integer pageSize, FindAllTest findAllTest) throws Exception {
+    public PageInfo<TestPo> findAll(@RequestParam(required = true, value = "page") Integer page,
+                                    @RequestParam(required = true, value = "pageSize") Integer pageSize,
+                                    @RequestParam(required = false, value = "planNo") String planNo,
+                                    @RequestParam(required = false, value = "statTime")String statTime,
+                                    @RequestParam(required = false, value = "endTime")String endTime,
+                                    @RequestParam(required = false, value = "createTime")String createTime) throws Exception {
 
-        PageInfo<TestPo> all = testService.findAll(page, pageSize, findAllTest);
+        Map<String,Object> map=new HashMap();
+        map.put("planNo",planNo);
+        map.put("statTime",statTime);
+        map.put("endTime",endTime);
+        map.put("createTime",createTime);
+        PageInfo<TestPo> all = testService.findAll(page, pageSize, map);
         return all;
     }
 
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
     @ApiOperation("添加数据")
-    public AjaxResult insert(TestPo testPo) throws Exception {
+    public AjaxResult insert(@Valid @RequestBody TestPo testPo) throws Exception {
 
         String testId = testService.insert(testPo);
         if (StringUtils.isEmpty(testPo.getPlanNo())) {
@@ -55,9 +63,9 @@ public class TestController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/byId", method = RequestMethod.GET)
+    @RequestMapping(value = "/byId/{planNo}", method = RequestMethod.GET)
     @ApiOperation("详情查看")
-    public AjaxResult byId(String planNo) throws Exception {
+    public AjaxResult byId(@PathVariable("planNo")String planNo) throws Exception {
 
         TestPo test = testService.getById(planNo);
         if (StringUtils.isEmpty(test)) {
@@ -66,9 +74,9 @@ public class TestController extends BaseController {
         return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
 
-    @RequestMapping(value = "/byIdMonth", method = RequestMethod.GET)
+    @RequestMapping(value = "/byIdMonth/{planNo}", method = RequestMethod.GET)
     @ApiOperation("根据id查询上个月数据")
-    public AjaxResult byIdMonth(String planNo) throws Exception {
+    public AjaxResult byIdMonth(@PathVariable("planNo")String planNo) throws Exception {
 
         TestPo test = testService.getByIdMonth(planNo);
         if (StringUtils.isEmpty(test)) {
@@ -78,7 +86,7 @@ public class TestController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/deleteById/{planNo}", method = RequestMethod.GET)
+    @RequestMapping(value = "/data/{planNo}", method = RequestMethod.DELETE)
     @ApiOperation("删除数据")
     public AjaxResult deleteById(@PathVariable("planNo")String planNo) throws Exception {
 
@@ -89,7 +97,7 @@ public class TestController extends BaseController {
         return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("批量删除数据")
     public AjaxResult deleteById(String[] planNo) throws Exception {
 
@@ -100,9 +108,9 @@ public class TestController extends BaseController {
         return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
 
-    @RequestMapping(value = "/deleteUrl", method = RequestMethod.GET)
+    @RequestMapping(value = "/file/{planNo}", method = RequestMethod.DELETE)
     @ApiOperation("删除文件")
-    public AjaxResult deleteUrl(String planNo) throws Exception {
+    public AjaxResult deleteUrl(@PathVariable("planNo") String planNo) throws Exception {
 
         String byId = testService.deleteUrl(planNo);
         if (StringUtils.isEmpty(byId)) {
@@ -111,9 +119,9 @@ public class TestController extends BaseController {
         return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload/{planNo}", method = RequestMethod.POST)
     @ApiOperation("上传文件")
-    public AjaxResult upload(String planNo, MultipartFile file) throws Exception {
+    public AjaxResult upload(@PathVariable("planNo") String planNo, @RequestParam("file")MultipartFile file) throws Exception {
 
         String name = testService.upload(planNo, file);
         if (name.equals("2")) {
@@ -122,9 +130,9 @@ public class TestController extends BaseController {
         return success((ReturnInfo.UPLOAD_SUCCESS_MSG), name);
     }
 
-    @RequestMapping(value = "/downLoad", method = RequestMethod.GET)
+    @RequestMapping(value = "/downLoad/{planNo}", method = RequestMethod.GET)
     @ApiOperation("下载文件")
-    public AjaxResult downLoad(String planNo, HttpServletResponse response) throws Exception {
+    public AjaxResult downLoad(@PathVariable("planNo") String planNo, HttpServletResponse response) throws Exception {
 
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(planNo)) {
@@ -153,9 +161,9 @@ public class TestController extends BaseController {
         return success(ReturnInfo.DOWNLOAD_SUCCESS_MSG);
     }
 
-    @RequestMapping(value = "/uploadAll", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadAll/{planNo}", method = RequestMethod.POST)
     @ApiOperation("上传多个文件")
-    public AjaxResult uploadAll(String planNo, MultipartFile[] file) throws Exception {
+    public AjaxResult uploadAll(@PathVariable("planNo") String planNo, @RequestParam("file")MultipartFile[] file) throws Exception {
 
         for (MultipartFile multipartFile : file) {
             String name = testService.upload(planNo, multipartFile);

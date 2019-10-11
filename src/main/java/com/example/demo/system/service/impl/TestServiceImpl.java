@@ -44,13 +44,14 @@ public class TestServiceImpl implements TestService {
      * Description: 根据条件进行查询
      */
     @Override
-    public PageInfo<TestPo> findAll(Integer page, Integer pageSize, FindAllTest findAllTest) throws Exception {
+    public PageInfo<TestPo> findAll(Integer page, Integer pageSize,Map<String,Object> map) throws Exception {
 //        前台必须传分页值
 //        调用分页插件,执行的语句必须在插件的下面
         int limit = page != null ? page : 1;
         int offset = pageSize != null ? pageSize : 10;
         PageHelper.startPage(limit, offset);
-        List<TestPo> all = testMapper.findAll(findAllTest);
+
+        List<TestPo> all = testMapper.findAll(map);
         if (StringUtils.isEmpty(all)) {
             throw new CustomException("查询失败");
         }
@@ -109,7 +110,6 @@ public class TestServiceImpl implements TestService {
         if (StringUtils.isEmpty(planNo)) {
             throw new CustomException("planNo编号不能为空");
         }
-
         map.put("planNo", planNo);
 //           调用执行查询语句
         TestPo test = testMapper.getById(map);
