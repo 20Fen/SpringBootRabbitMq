@@ -7,11 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Description:
- *
- * @author yangfl
- * @date 2019年09月24日 16:30
- * Version 1.0
+ * Description: 数据库model
  */
 @Data
 @ApiModel(value = "数据库model")
