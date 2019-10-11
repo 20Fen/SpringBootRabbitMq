@@ -1,7 +1,7 @@
 package com.example.demo.system.controller;
 
 import com.example.demo.system.util.AjaxResult;
-import com.example.demo.system.util.CustomException;
+import com.exception.CustomException;
 import com.example.demo.system.util.ReturnInfo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.util.StringUtils;

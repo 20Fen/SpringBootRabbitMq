@@ -1,4 +1,4 @@
-package com.example.demo.system.util;
+package com.exception;
 
 /**
  * Description: 自定义异常

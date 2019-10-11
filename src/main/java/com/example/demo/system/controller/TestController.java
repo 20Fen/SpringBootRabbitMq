@@ -1,10 +1,9 @@
 package com.example.demo.system.controller;
 
-import com.example.demo.system.model.bo.FindAllTest;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
 import com.example.demo.system.util.AjaxResult;
-import com.example.demo.system.util.CustomException;
+import com.exception.CustomException;
 import com.example.demo.system.util.ReturnInfo;
 import com.example.demo.system.util.TestUtil;
 import com.github.pagehelper.PageInfo;
