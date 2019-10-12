@@ -21,6 +21,19 @@
 		    str_to_date(#{list.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
 		    str_to_date(#{list.createTime,jdbcType=VARCHAR},'%Y-%m-%d'))
     </insert>
+
+<!--    批量插入-->
+    <insert id="insertTestAll">
+        insert into ceshi (id,plan_no,end_time,stat_time,create_time) values
+         <foreach collection="list" item="item" separator="," open="(" close=")" index="">
+            #{item.id},
+		    #{item.planNo},
+		    str_to_date(#{item.endTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
+		    str_to_date(#{item.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
+		    str_to_date(#{item.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
+    </foreach>
+    </insert>
+
     <update id="updataTest" parameterType="map">
         update ceshi set
            stat_time = str_to_date(#{list.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),

@@ -33,5 +33,7 @@ public interface TestMapper {
     //    删除数据
     Integer deleteById(Map<String, Object> map);
 
+    //    批量插入
+    Integer insertTestAll(@Param("list") List<TestPo> testPo);
 
 }
