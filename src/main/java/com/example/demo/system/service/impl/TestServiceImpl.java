@@ -200,7 +200,7 @@ public class TestServiceImpl implements TestService {
             if (null == test) {
                 throw new CustomException("数据不存在");
             }
-            if (!test.getDoc().equals("") && null != test.getDoc() || null != test.getUrl() && !test.getUrl().equals("")) {
+            if (null != test.getUrl() && !test.getUrl().equals("")) {
 //        得到数据库中的文件路径
                 Path path1 = Paths.get(test.getUrl());
 //        删除文件
