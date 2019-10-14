@@ -1,8 +1,7 @@
 package com.example.demo.system.service.impl;
 
 import com.example.demo.system.dao.mapper.TestMapper;
-import com.example.demo.system.model.po.TestPo;
-import com.example.demo.system.model.po.Word;
+import com.example.demo.system.model.po.*;
 import com.example.demo.system.service.TestService;
 import com.exception.CustomException;
 import com.example.demo.system.util.DateUtil;
@@ -13,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,10 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Description:
@@ -351,5 +348,51 @@ public class TestServiceImpl implements TestService {
             throw new CustomException("查询数据不存在");
         }
         return test;
+    }
+
+    /**
+     * Description: 删除数据并且删除多个文件文件
+     */
+    @Override
+    @Transactional
+    public String deleteUrlAll(String planNo) throws CustomException, IOException {
+
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtils.isEmpty(planNo)) {
+            throw new CustomException("planNo编号不能为空");
+        }
+
+        map.put("planNo", planNo);
+//        调用执行查询语句
+        List<TestPo1> test = testMapper.getByIdAll(map);
+        if (CollectionUtils.isEmpty(test)) {
+            throw new CustomException("数据不存在");
+        }
+        String url="";
+        for (TestPo1 testPo1 : test) {
+            for (image testPo : testPo1.getList()) {
+            if (null != testPo.getUrl() && !testPo.getUrl().equals("")) {
+                url=testPo.getUrl();
+                //        得到数据库中的文件路径
+                Path path1 = Paths.get(url);
+//        删除文件
+                boolean exists = Files.deleteIfExists(path1);
+                if (!exists) {
+                    throw new CustomException("删除文件失败");
+            }        }
+
+            }}
+//        按照 / 进行截取
+        String path = url.substring(0, url.lastIndexOf(File.separator));
+//        删除文件夹
+        TestUtil.delFolder(path);
+//        调用执行删除语句
+        Integer ceshi = testMapper.deleteById(map);
+        Integer image = testMapper.deleteByIdAll(map);
+
+        if (1 == image && 1 == ceshi) {
+            return "1";
+        }
+        return null;
     }
 }

@@ -51,6 +51,10 @@
         delete from ceshi
         where plan_no = #{planNo}
     </delete>
+    <delete id="deleteByIdAll">
+        delete from image
+        where id = #{planNo}
+    </delete>
 
 
     <select id="findAll" resultMap="getTest" parameterType="map">
@@ -116,5 +120,23 @@
     </select>
     <select id="getId" resultType="com.example.demo.system.model.po.Word" parameterType="map">
         select * from word where id = #{id}
+    </select>
+
+    <resultMap id="getTestUrl" type="com.example.demo.system.model.po.TestPo1">
+        <result column="id" property="id"></result>
+        <result column="plan_no" property="planNo"></result>
+        <result column="end_time" property="endTime"></result>
+        <result column="stat_time" property="statTime"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="doc" property="doc"></result>
+        <collection property="list" ofType="com.example.demo.system.model.po.image">
+            <result column="id" property="id"></result>
+            <result column="url" property="url"></result>
+        </collection>
+    </resultMap>
+
+
+    <select id="getByIdAll" resultMap="getTestUrl">
+        select c.plan_no,i.* from ceshi c LEFT JOIN image i on c.plan_no = i.id where c.plan_no =  #{planNo}
     </select>
 </mapper>

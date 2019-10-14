@@ -6,6 +6,7 @@ import com.exception.CustomException;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -41,4 +42,5 @@ public interface TestService {
 
     Word getId(String id) throws CustomException;
 
+    String deleteUrlAll(String planNo) throws CustomException, IOException;
 }

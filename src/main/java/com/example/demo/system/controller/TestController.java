@@ -185,5 +185,14 @@ public class TestController extends BaseController {
         }
         return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
+    @RequestMapping(value = "/urlall/{planNo}", method = RequestMethod.DELETE)
+    @ApiOperation("删除数据并删除对个文件")
+    public AjaxResult deleteUrlAll(@PathVariable("planNo")String planNo) throws Exception {
 
+        String byId = testService.deleteUrlAll(planNo);
+        if (StringUtils.isEmpty(byId)) {
+            return success(ReturnInfo.DEL_FAIL_MSG);
+        }
+        return success((ReturnInfo.DEL_SUCCESS_MSG), planNo);
+    }
 }

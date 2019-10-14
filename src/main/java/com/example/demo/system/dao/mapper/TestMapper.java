@@ -1,6 +1,7 @@
 package com.example.demo.system.dao.mapper;
 
 import com.example.demo.system.model.po.TestPo;
+import com.example.demo.system.model.po.TestPo1;
 import com.example.demo.system.model.po.Word;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -38,5 +39,11 @@ public interface TestMapper {
     Integer insertTestAll(@Param("list") List<TestPo> testPo);
 
     Word getId(Map<String, Object> map);
+
+    //    根据id查询多个数据
+    List<TestPo1> getByIdAll(Map<String, Object> map);
+
+    //    删除数据
+    Integer deleteByIdAll(Map<String, Object> map);
 
 }
