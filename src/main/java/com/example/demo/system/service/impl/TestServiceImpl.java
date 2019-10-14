@@ -2,6 +2,7 @@ package com.example.demo.system.service.impl;
 
 import com.example.demo.system.dao.mapper.TestMapper;
 import com.example.demo.system.model.po.TestPo;
+import com.example.demo.system.model.po.Word;
 import com.example.demo.system.service.TestService;
 import com.exception.CustomException;
 import com.example.demo.system.util.DateUtil;
@@ -160,7 +161,7 @@ public class TestServiceImpl implements TestService {
         if (null == test) {
             throw new CustomException("数据不存在");
         }
-        if (!test.getDoc().equals("") && null != test.getDoc() || null != test.getUrl() && !test.getUrl().equals("")) {
+        if (null != test.getUrl() && !test.getUrl().equals("")) {
 //        得到数据库中的文件路径
             Path path1 = Paths.get(test.getUrl());
 //        删除文件
@@ -274,7 +275,7 @@ public class TestServiceImpl implements TestService {
 //        调用执行查询语句
         TestPo byId = testMapper.getById(map);
 //        判断路径是否为空
-        if ((null != byId.getDoc() && !byId.getDoc().equals("")) || (null != byId.getUrl() && !byId.getUrl().equals(""))) {
+        if (byId == null) {
             throw new CustomException("文件已存在");
         }
         try {
@@ -334,5 +335,21 @@ public class TestServiceImpl implements TestService {
     @Override
     public TestPo getById(Map<String, Object> map) {
         return testMapper.getById(map);
+    }
+
+    @Override
+    public Word getId(String id) throws CustomException {
+
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtils.isEmpty(id)) {
+            throw new CustomException("id编号不能为空");
+        }
+        map.put("id", id);
+//           调用执行查询语句
+        Word test = testMapper.getId(map);
+        if (null == test) {
+            throw new CustomException("查询数据不存在");
+        }
+        return test;
     }
 }

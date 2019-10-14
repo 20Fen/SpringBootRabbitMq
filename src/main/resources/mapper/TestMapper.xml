@@ -41,7 +41,7 @@
             create_time = str_to_date(#{list.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
             where plan_no = #{list.planNo}
     </update>
-    <update id="updataTestDoc">
+     <update id="updataTestDoc">
         update ceshi set
         doc = #{filename},
         url = #{url}
@@ -113,5 +113,8 @@
             and (stat_time <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s') and end_time <![CDATA[ >= ]]> DATE_FORMAT(#{statTime},'%Y-%m-%d %H:%i:%s'))
         </if>
         </where>
+    </select>
+    <select id="getId" resultType="com.example.demo.system.model.po.Word" parameterType="map">
+        select * from word where id = #{id}
     </select>
 </mapper>
