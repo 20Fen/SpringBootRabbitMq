@@ -1,7 +1,6 @@
 package com.example.demo.system.controller;
 
 import com.example.demo.system.model.po.TestPo;
-import com.example.demo.system.model.po.Word;
 import com.example.demo.system.service.TestService;
 import com.example.demo.system.util.AjaxResult;
 import com.exception.CustomException;
@@ -175,16 +174,6 @@ public class TestController extends BaseController {
         return success((ReturnInfo.UPLOAD_SUCCESS_MSG));
     }
 
-    @RequestMapping(value = "/word/{id}", method = RequestMethod.GET)
-    @ApiOperation("详情查看")
-    public AjaxResult wordId(@PathVariable("id") String id) throws Exception {
-
-        Word test = testService.getId(id);
-        if (StringUtils.isEmpty(test)) {
-            return success(ReturnInfo.QUERY_FAIL_MSG);
-        }
-        return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
-    }
     @RequestMapping(value = "/urlall/{planNo}", method = RequestMethod.DELETE)
     @ApiOperation("删除数据并删除对个文件")
     public AjaxResult deleteUrlAll(@PathVariable("planNo")String planNo) throws Exception {

@@ -41,7 +41,7 @@ public class TestServiceImpl implements TestService {
      * Description: 根据条件进行查询
      */
     @Override
-    public PageInfo<TestPo> findAll(Integer page, Integer pageSize,Map<String,Object> map) throws Exception {
+    public PageInfo<TestPo> findAll(Integer page, Integer pageSize, Map<String, Object> map) throws Exception {
 //        前台必须传分页值
 //        调用分页插件,执行的语句必须在插件的下面
         int limit = page != null ? page : 1;
@@ -334,21 +334,6 @@ public class TestServiceImpl implements TestService {
         return testMapper.getById(map);
     }
 
-    @Override
-    public Word getId(String id) throws CustomException {
-
-        Map<String, Object> map = new HashMap<>();
-        if (StringUtils.isEmpty(id)) {
-            throw new CustomException("id编号不能为空");
-        }
-        map.put("id", id);
-//           调用执行查询语句
-        Word test = testMapper.getId(map);
-        if (null == test) {
-            throw new CustomException("查询数据不存在");
-        }
-        return test;
-    }
 
     /**
      * Description: 删除数据并且删除多个文件文件
@@ -368,20 +353,21 @@ public class TestServiceImpl implements TestService {
         if (CollectionUtils.isEmpty(test)) {
             throw new CustomException("数据不存在");
         }
-        String url="";
+        String url = "";
         for (TestPo1 testPo1 : test) {
             for (image testPo : testPo1.getList()) {
-            if (null != testPo.getUrl() && !testPo.getUrl().equals("")) {
-                url=testPo.getUrl();
-                //        得到数据库中的文件路径
-                Path path1 = Paths.get(url);
+                if (null != testPo.getUrl() && !testPo.getUrl().equals("")) {
+                    url = testPo.getUrl();
+                    //        得到数据库中的文件路径
+                    Path path1 = Paths.get(url);
 //        删除文件
-                boolean exists = Files.deleteIfExists(path1);
-                if (!exists) {
-                    throw new CustomException("删除文件失败");
-            }        }
-
-            }}
+                    boolean exists = Files.deleteIfExists(path1);
+                    if (!exists) {
+                        throw new CustomException("删除文件失败");
+                    }
+                }
+            }
+        }
 //        按照 / 进行截取
         String path = url.substring(0, url.lastIndexOf(File.separator));
 //        删除文件夹
@@ -389,7 +375,6 @@ public class TestServiceImpl implements TestService {
 //        调用执行删除语句
         Integer ceshi = testMapper.deleteById(map);
         Integer image = testMapper.deleteByIdAll(map);
-
         if (1 == image && 1 == ceshi) {
             return "1";
         }

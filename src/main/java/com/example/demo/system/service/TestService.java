@@ -1,7 +1,6 @@
 package com.example.demo.system.service;
 
 import com.example.demo.system.model.po.TestPo;
-import com.example.demo.system.model.po.Word;
 import com.exception.CustomException;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,8 +38,6 @@ public interface TestService {
     String deleteUrl(String planNo) throws Exception;
 
     TestPo getById(Map<String, Object> map);
-
-    Word getId(String id) throws CustomException;
-
+    //    删除数据并删除多个文件
     String deleteUrlAll(String planNo) throws CustomException, IOException;
 }

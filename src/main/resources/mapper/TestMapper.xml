@@ -118,9 +118,6 @@
         </if>
         </where>
     </select>
-    <select id="getId" resultType="com.example.demo.system.model.po.Word" parameterType="map">
-        select * from word where id = #{id}
-    </select>
 
     <resultMap id="getTestUrl" type="com.example.demo.system.model.po.TestPo1">
         <result column="id" property="id"></result>
