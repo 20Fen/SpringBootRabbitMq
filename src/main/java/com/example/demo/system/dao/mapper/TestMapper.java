@@ -37,8 +37,6 @@ public interface TestMapper {
     //    批量插入
     Integer insertTestAll(@Param("list") List<TestPo> testPo);
 
-    Word getId(Map<String, Object> map);
-
     //    根据id查询多个数据
     List<TestPo1> getByIdAll(Map<String, Object> map);
 
