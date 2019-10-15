@@ -23,7 +23,7 @@
     </insert>
 
 <!--    批量插入-->
-    <insert id="insertTestAll">
+    <insert id="insertTestAll" parameterType="java.util.List">
         insert into ceshi (id,plan_no,end_time,stat_time,create_time) values
          <foreach collection="list" item="item" separator="," open="(" close=")" index="">
             #{item.id},
@@ -51,9 +51,16 @@
         delete from ceshi
         where plan_no = #{planNo}
     </delete>
-    <delete id="deleteByIdAll">
+    <delete id="deleteByIdImage">
         delete from image
         where id = #{planNo}
+    </delete>
+    <delete id="deleteByIdAll">
+         delete from ceshi
+          where plan_no in
+          <foreach collection="list" item="item" open="(" close=")" separator=",">
+              #{item.planNo,jdbcType=VARCHAR}
+          </foreach>
     </delete>
 
 

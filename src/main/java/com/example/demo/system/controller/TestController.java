@@ -1,5 +1,6 @@
 package com.example.demo.system.controller;
 
+import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
 import com.example.demo.system.util.AjaxResult;
@@ -10,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +21,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,9 +89,8 @@ public class TestController extends BaseController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("批量删除数据")
-    public AjaxResult deleteById(String[] planNo) throws Exception {
-
-        String byId = testService.delete(planNo);
+    public AjaxResult deleteById(@Valid @RequestBody Test test) throws Exception {
+        String byId = testService.delete(test);
         if (StringUtils.isEmpty(byId)) {
             return success(ReturnInfo.DEL_FAIL_MSG);
         }

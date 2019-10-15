@@ -1,5 +1,6 @@
 package com.example.demo.system.dao.mapper;
 
+import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.model.po.TestPo1;
 import org.apache.ibatis.annotations.Mapper;
@@ -32,7 +33,7 @@ public interface TestMapper {
     Integer updataTestDoc(Map<String, Object> map);
 
     //    删除数据
-    Integer deleteById(Map<String, Object> map);
+    Integer deleteByIdAll(@Param("list") List<TestPo> testPo);
 
     //    批量插入
     Integer insertTestAll(@Param("list") List<TestPo> testPo);
@@ -41,6 +42,9 @@ public interface TestMapper {
     TestPo1 getByIdAll(Map<String, Object> map);
 
     //    删除数据
-    Integer deleteByIdAll(Map<String, Object> map);
+    Integer deleteByIdImage(Map<String, Object> map);
+
+    //    删除数据
+    Integer deleteById(Map<String, Object> map);
 
 }

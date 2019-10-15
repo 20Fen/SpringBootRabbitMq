@@ -146,14 +146,15 @@ public class TestServiceImpl implements TestService {
      */
     @Override
     @Transactional
-    public String delete(String[] planNo) throws Exception {
+    public String delete(Test testPoList) throws Exception {
 
         Map<String, Object> map = new HashMap<>();
-        for (String plan : planNo) {
-            if (StringUtils.isEmpty(plan)) {
+            if (StringUtils.isEmpty(testPoList)) {
                 throw new CustomException("planNo编号不能为空");
             }
-            map.put("planNo", plan);
+        for (TestPo testPo : testPoList.getList()) {
+            map.put("planNo", testPo.getPlanNo());
+
             //调用执行查询语句
             TestPo test = testMapper.getById(map);
             if (null == test) {
@@ -171,13 +172,12 @@ public class TestServiceImpl implements TestService {
                 String path = test.getUrl().substring(0, test.getUrl().lastIndexOf(File.separator));
                 //删除文件夹
                 TestUtil.delFolder(path);
-            }
+            }}
             //调用执行删除语句
-            Integer integer = testMapper.deleteById(map);
+            Integer integer = testMapper.deleteByIdAll(testPoList.getList());
             if (1 == integer) {
-                return test.getPlanNo();
+                return "1";
             }
-        }
         return null;
     }
 
@@ -335,7 +335,7 @@ public class TestServiceImpl implements TestService {
             String path = url.substring(0, url.lastIndexOf(File.separator));
             //删除文件夹
             TestUtil.delFolder(path);
-            Integer image1 = testMapper.deleteByIdAll(map);
+            Integer image1 = testMapper.deleteByIdImage(map);
             if (1 == image1) {
                 return "1";
             }

@@ -1,11 +1,13 @@
 package com.example.demo.system.service;
 
+import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.exception.CustomException;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,7 +31,7 @@ public interface TestService {
     String upload(String planNo, MultipartFile file) throws Exception;
 
     //    批量删除数据并删除文件
-    String delete(String[] planNo) throws Exception;
+    String delete(Test planNo) throws Exception;
 
     //    删除文件并更新数据库字段
     String deleteUrl(String planNo) throws Exception;
