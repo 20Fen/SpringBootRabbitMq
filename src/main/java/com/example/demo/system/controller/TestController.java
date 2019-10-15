@@ -84,18 +84,6 @@ public class TestController extends BaseController {
         return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
 
-
-    @RequestMapping(value = "/data/{planNo}", method = RequestMethod.DELETE)
-    @ApiOperation("删除数据")
-    public AjaxResult deleteById(@PathVariable("planNo")String planNo) throws Exception {
-
-        String byId = testService.deleteById(planNo);
-        if (StringUtils.isEmpty(byId)) {
-            return success(ReturnInfo.DEL_FAIL_MSG);
-        }
-        return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
-    }
-
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     @ApiOperation("批量删除数据")
     public AjaxResult deleteById(String[] planNo) throws Exception {

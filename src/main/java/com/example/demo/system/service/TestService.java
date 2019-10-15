@@ -28,9 +28,6 @@ public interface TestService {
     //    上传文件
     String upload(String planNo, MultipartFile file) throws Exception;
 
-    //    删除数据并删除文件
-    String deleteById(String planNo) throws Exception;
-
     //    批量删除数据并删除文件
     String delete(String[] planNo) throws Exception;
 
