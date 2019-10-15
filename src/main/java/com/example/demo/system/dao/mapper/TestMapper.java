@@ -38,7 +38,7 @@ public interface TestMapper {
     Integer insertTestAll(@Param("list") List<TestPo> testPo);
 
     //    根据id查询多个数据
-    List<TestPo1> getByIdAll(Map<String, Object> map);
+    TestPo1 getByIdAll(Map<String, Object> map);
 
     //    删除数据
     Integer deleteByIdAll(Map<String, Object> map);

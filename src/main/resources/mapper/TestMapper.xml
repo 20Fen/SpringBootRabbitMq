@@ -126,7 +126,7 @@
         <result column="stat_time" property="statTime"></result>
         <result column="create_time" property="createTime"></result>
         <result column="doc" property="doc"></result>
-        <collection property="list" ofType="com.example.demo.system.model.po.image">
+        <collection property="list" ofType="com.example.demo.system.model.po.Image">
             <result column="id" property="id"></result>
             <result column="url" property="url"></result>
         </collection>

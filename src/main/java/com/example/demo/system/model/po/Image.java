@@ -6,7 +6,7 @@ import lombok.Data;
  * Description:  文件路径类
  */
 @Data
-public class image {
+public class Image {
 
     private String id;
     private String url;

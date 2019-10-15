@@ -134,8 +134,8 @@ public class TestServiceImpl implements TestService {
         map.put("endTime", endMonth);
 //           调用执行查询语句
         TestPo test = testMapper.getByIdMonth(map);
-        if (null == test) {
-            throw new CustomException("查询数据不存在");
+        if (StringUtils.isEmpty(test)) {
+            return new TestPo();
         }
         return test;
     }
@@ -346,18 +346,17 @@ public class TestServiceImpl implements TestService {
         if (StringUtils.isEmpty(planNo)) {
             throw new CustomException("planNo编号不能为空");
         }
-
         map.put("planNo", planNo);
 //        调用执行查询语句
-        List<TestPo1> test = testMapper.getByIdAll(map);
-        if (CollectionUtils.isEmpty(test)) {
+        TestPo1 test = testMapper.getByIdAll(map);
+        if (StringUtils.isEmpty(test)) {
             throw new CustomException("数据不存在");
         }
         String url = "";
-        for (TestPo1 testPo1 : test) {
-            for (image testPo : testPo1.getList()) {
-                if (null != testPo.getUrl() && !testPo.getUrl().equals("")) {
-                    url = testPo.getUrl();
+        if (!CollectionUtils.isEmpty(test.getList())) {
+            for (Image image : test.getList()) {
+                if (null != image.getUrl() && !image.getUrl().equals("")) {
+                    url = image.getUrl();
                     //        得到数据库中的文件路径
                     Path path1 = Paths.get(url);
 //        删除文件
@@ -367,15 +366,21 @@ public class TestServiceImpl implements TestService {
                     }
                 }
             }
-        }
+            if (StringUtils.isEmpty(url)) {
+                throw new CustomException("路径不存在");
+            }
 //        按照 / 进行截取
-        String path = url.substring(0, url.lastIndexOf(File.separator));
+            String path = url.substring(0, url.lastIndexOf(File.separator));
 //        删除文件夹
-        TestUtil.delFolder(path);
+            TestUtil.delFolder(path);
+            Integer image1 = testMapper.deleteByIdAll(map);
+            if (1 == image1) {
+                return "1";
+            }
+        }
 //        调用执行删除语句
         Integer ceshi = testMapper.deleteById(map);
-        Integer image = testMapper.deleteByIdAll(map);
-        if (1 == image && 1 == ceshi) {
+        if (1 == ceshi) {
             return "1";
         }
         return null;

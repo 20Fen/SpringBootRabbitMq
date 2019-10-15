@@ -20,6 +20,6 @@ public class TestPo1 extends BaseProtocolIn {
     private String statTime;
     private String createTime;
     private String doc;
-    private List<image> list;
+    private List<Image> list;
 
 }
