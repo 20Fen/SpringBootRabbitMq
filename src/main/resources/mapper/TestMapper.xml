@@ -88,17 +88,7 @@
             order by create_time desc
 
     </select>
-    <select id="getById" resultMap="getTest" parameterType="map">
-            select
-            id,
-            plan_no,
-            DATE_FORMAT(end_time,'%Y-%m-%d-%T') end_time,
-            DATE_FORMAT(stat_time,'%Y-%m-%d-%T') stat_time,
-            DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
-            doc,
-            url
-             from ceshi where plan_no = #{planNo}
-    </select>
+
     <select id="getByIdMonth" resultMap="getTest" parameterType="map">
          select
             id,
@@ -133,7 +123,18 @@
     </resultMap>
 
 
-    <select id="getByIdAll" resultMap="getTestUrl">
-        select c.plan_no,i.* from ceshi c LEFT JOIN image i on c.plan_no = i.id where c.plan_no =  #{planNo}
+    <select id="getById" resultMap="getTestUrl" parameterType="map">
+        select
+            c.id,
+            c.plan_no,
+            c.DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s') end_time,
+            c.DATE_FORMAT(stat_time,'%Y-%m-%d %H:%i:%s') stat_time,
+            c.DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
+            c.doc,
+            c.url,i.*
+        from ceshi c
+        LEFT JOIN image i
+        on c.plan_no = i.id
+        where c.plan_no =  #{planNo}
     </select>
 </mapper>
