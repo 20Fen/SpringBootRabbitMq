@@ -174,8 +174,9 @@ public class TestServiceImpl implements TestService {
                 TestUtil.delFolder(path);
             }}
             //调用执行删除语句
-            Integer integer = testMapper.deleteByIdAll(testPoList.getList());
-            if (1 == integer) {
+            map.put("list",testPoList.getList());
+            Integer integer = testMapper.deleteByIdAll(map);
+            if (0 != integer) {
                 return "1";
             }
         return null;

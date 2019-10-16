@@ -33,7 +33,7 @@ public interface TestMapper {
     Integer updataTestDoc(Map<String, Object> map);
 
     //    删除数据
-    Integer deleteByIdAll(@Param("list") List<TestPo> testPo);
+    Integer deleteByIdAll(Map<String, Object> map);
 
     //    批量插入
     Integer insertTestAll(@Param("list") List<TestPo> testPo);
@@ -43,7 +43,6 @@ public interface TestMapper {
 
     //    删除数据
     Integer deleteByIdImage(Map<String, Object> map);
-
     //    删除数据
     Integer deleteById(Map<String, Object> map);
 
