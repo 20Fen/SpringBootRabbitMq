@@ -1,6 +1,5 @@
 package com.example.demo.system.util;
 
-import com.github.pagehelper.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.http.HttpServletResponse;

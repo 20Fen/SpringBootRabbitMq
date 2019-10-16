@@ -1,6 +1,5 @@
 package com.example.demo.system.dao.mapper;
 
-import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.model.po.TestPo1;
 import org.apache.ibatis.annotations.Mapper;

@@ -72,10 +72,6 @@ public class DateUtil {
 
     /**
      * 描述: 获取上个月的结束时间
-     *
-     * @return
-     * @author 张林
-     * @date 2019-03-28 19:49:43
      */
     public static String getPreviousMonthDayEnd () {
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
