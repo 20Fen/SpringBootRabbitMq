@@ -47,7 +47,6 @@ public class TestServiceImpl implements TestService {
         int limit = page != null ? page : 1;
         int offset = pageSize != null ? pageSize : 10;
         PageHelper.startPage(limit, offset);
-
         List<TestPo> all = testMapper.findAll(map);
         if (StringUtils.isEmpty(all)) {
             throw new CustomException("查询失败");
