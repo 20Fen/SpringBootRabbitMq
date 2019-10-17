@@ -52,6 +52,7 @@ public class TestServiceImpl implements TestService {
         if (StringUtils.isEmpty(all)) {
             throw new CustomException("查询失败");
         }
+//        返回的必须是查询出来的数据集合
         return new PageInfo<>(all);
     }
 
