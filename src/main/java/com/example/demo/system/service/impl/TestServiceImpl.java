@@ -284,7 +284,8 @@ public class TestServiceImpl implements TestService {
         File file = new File(savePath);
         //获取当前磁盘空间
         long usableSpace = file.getUsableSpace();
-        System.out.println(usableSpace);
+        log.info("-------------可用磁盘空间大小----" + usableSpace / 1024 / 1024 + "M--------");
+        log.info("-------------上传文件大小----" + size / 1024 / 1024 + "M--------");
         //判断剩余的磁盘空间是否小于当前上传的文件大小
         if (space < size) {
             throw new CustomException("磁盘空间不足");
