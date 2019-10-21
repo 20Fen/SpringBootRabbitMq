@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-
+import javax.validation.constraints.NotBlank;
 /**
  * Description: 数据库model
  */
@@ -14,17 +14,17 @@ import lombok.Data;
 @Data
 @ApiModel(value = "数据库model")
 public class TestPo extends BaseProtocolIn {
+
 //    判断非空
 //    @NotBlank(message = "id不能为空")
-//    字段说明
-//    @ApiModelProperty(value = "说明")
-//    字段长度效验
-//    @Length(max = 16, message = "最大只能输入16个字符")
 //    字段值效验
 //    @Pattern(regexp = "^[0-9]*[1-9][0-9]*$", message = "page只允许是正整数")
-
     private String id;
+//    字段说明
+//    @ApiModelProperty(value = "说明")
     private String planNo;
+//    字段长度效验
+//    @Length(max = 16, message = "最大只能输入16个字符")
     private String endTime;
     private String statTime;
     private String createTime;

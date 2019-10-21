@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,8 +54,8 @@ public class TestController extends BaseController {
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     @ApiOperation("添加数据")
-    public AjaxResult insert(@Valid @RequestBody TestPo testPo) throws Exception {
-
+    public AjaxResult insert(@Valid @RequestBody TestPo testPo, BindingResult result) throws Exception {
+        testPo.validate(result);
         String testId = testService.insert(testPo);
         if (StringUtils.isEmpty(testPo.getPlanNo())) {
             return success(ReturnInfo.SAVE_SUCCESS_MSG, testId);
