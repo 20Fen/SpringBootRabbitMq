@@ -321,4 +321,21 @@ public class DateUtil {
             throw new Exception(String.format("Parse [%s] with format [%s] error!", dateString, NORM_DATETIME_PATTERN), e);
         }
     }
+    /**
+     * 格式yyyy-MM-dd HH:mm:ss
+     *
+     * @param date 标准形式的时间字符串
+     * @return 字符对象
+     */
+    public static String formatDate(Date date) throws Exception {
+        try {
+            if (null == date) {
+                return null;
+            }
+            SimpleDateFormat formatter = new SimpleDateFormat(NORM_DATETIME_PATTERN);
+            return formatter.format(date);
+        } catch (Exception e) {
+            throw new Exception(String.format("Parse [%s] with format [%s] error!", date, NORM_DATETIME_PATTERN), e);
+        }
+    }
 }
