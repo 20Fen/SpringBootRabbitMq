@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @ComponentScan("com")
-@PropertySource(value = "dev.properties")
+//@PropertySource(value = "dev.properties")
 @ImportResource("classpath:transaction.xml")
 public class DemoApplication {
 
