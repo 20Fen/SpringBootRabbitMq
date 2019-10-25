@@ -30,17 +30,19 @@ public class MD5 {
     public static String md5PlusSalt(String keyword)
     {
 //        md5加密
-        String md5= DigestUtils.md5Hex(keyword);
+        String md5 = DigestUtils.md5Hex(keyword);
 //        md5+盐
-        char[]cArray=md5.toCharArray();
-        for(int i=0;i<cArray.length;i++)
+        char[] cArray = md5.toCharArray();
+        for(int i = 0;i < cArray.length; i++)
         {
-            if(cArray[i]>=48&&cArray[i]<=57)
+            if(cArray[i] >= 48 &&cArray[i] <= 57)
             {
-                cArray[i]=(char)(105-cArray[i]);
+                cArray[i] = (char)(105-cArray[i]);
 
             }
         }
+//        都可以使用
+//        return  String.valueOf(cArray);
         return  "".valueOf(cArray);
 
     }
@@ -55,6 +57,7 @@ public class MD5 {
                 cArray[i]=(char)(105-cArray[i]);
             }
         }
+//        return  String.valueOf(cArray);
         return  "".valueOf(cArray);
     }
 }
