@@ -4,12 +4,15 @@ import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
 import com.example.demo.system.util.AjaxResult;
+import com.example.demo.system.util.MD5;
 import com.exception.CustomException;
 import com.example.demo.system.util.ReturnInfo;
 import com.example.demo.system.util.TestUtil;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +22,15 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Base64;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -172,5 +183,26 @@ public class TestController extends BaseController {
             return success(ReturnInfo.DEL_FAIL_MSG);
         }
         return success((ReturnInfo.DEL_SUCCESS_MSG), planNo);
+    }
+
+    @org.junit.Test
+    public void upEquipmentDerat() throws Exception {
+        String s = MD5.md5("123");
+        System.out.println(s);
+    }
+
+    @org.junit.Test
+    public void md5salt()
+    {
+        String keyword="i love you";
+        String md5=DigestUtils.md5Hex(keyword);
+        System.out.println("md5加密后："+"\n"+md5);
+        String md5salt=MD5.md5PlusSalt(keyword);
+        System.out.println("加盐后："+"\n"+md5salt);
+        String word= MD5.md5MinusSalt(md5salt);
+        System.out.println("解密后："+"\n"+word);
+        if(md5salt == keyword){
+            System.out.println("sadasd");
+        }
     }
 }
