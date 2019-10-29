@@ -42,8 +42,8 @@ public class MD5 {
             }
         }
 //        都可以使用
-//        return  String.valueOf(cArray);
-        return  "".valueOf(cArray);
+        return  String.valueOf(cArray);
+//        return  "".valueOf(cArray);
 
     }
 //    解密+盐
@@ -57,7 +57,7 @@ public class MD5 {
                 cArray[i]=(char)(105-cArray[i]);
             }
         }
-//        return  String.valueOf(cArray);
-        return  "".valueOf(cArray);
+        return  String.valueOf(cArray);
+//        return  "".valueOf(cArray);
     }
 }

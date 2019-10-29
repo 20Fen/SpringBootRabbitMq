@@ -54,12 +54,18 @@ public class TestController extends BaseController {
                                     @RequestParam(required = false, value = "endTime")String endTime,
                                     @RequestParam(required = false, value = "createTime")String createTime) throws Exception {
 
+        if (statTime != null && endTime != null) {
+            if (statTime.compareTo(endTime) >= 0) {
+                throw new CustomException("开始时间必须小于结束时间");
+            }
+        }
         Map<String,Object> map=new HashMap();
         map.put("planNo",planNo);
         map.put("statTime",statTime);
         map.put("endTime",endTime);
         map.put("createTime",createTime);
         PageInfo<TestPo> all = testService.findAll(page, pageSize, map);
+
         return all;
     }
 
