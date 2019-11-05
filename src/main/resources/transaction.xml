@@ -17,6 +17,7 @@
   <!-- 拦截器方式配置事物 -->
   <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
     <tx:attributes>
+<!--      REQUIRED 有事务就加人，没事务就创建-->
       <tx:method name="add*" propagation="REQUIRED"/>
       <tx:method name="append*" propagation="REQUIRED"/>
       <tx:method name="insert*" propagation="REQUIRED"/>
@@ -25,6 +26,7 @@
       <tx:method name="del*" propagation="REQUIRED"/>
       <tx:method name="remove*" propagation="REQUIRED"/>
       <tx:method name="delAndRepair" propagation="REQUIRED"/>
+<!--      SUPPORTS 支持当前事务，没有就以非事务执行-->
       <tx:method name="get*" propagation="SUPPORTS"/>
       <tx:method name="find*" propagation="SUPPORTS"/>
       <tx:method name="count*" propagation="SUPPORTS"/>
