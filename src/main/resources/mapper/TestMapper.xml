@@ -22,16 +22,16 @@
 		    str_to_date(#{list.createTime,jdbcType=VARCHAR},'%Y-%m-%d'))
     </insert>
 
-<!--    批量插入-->
+    <!--    批量插入-->
     <insert id="insertTestAll" parameterType="java.util.List">
         insert into ceshi (id,plan_no,end_time,stat_time,create_time) values
-         <foreach collection="list" item="item" separator="," open="(" close=")" index="">
+        <foreach collection="list" item="item" separator="," open="(" close=")" index="">
             #{item.id},
-		    #{item.planNo},
-		    str_to_date(#{item.endTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
-		    str_to_date(#{item.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
-		    str_to_date(#{item.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
-    </foreach>
+            #{item.planNo},
+            str_to_date(#{item.endTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
+            str_to_date(#{item.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
+            str_to_date(#{item.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
+        </foreach>
     </insert>
 
     <update id="updataTest" parameterType="map">
@@ -41,7 +41,7 @@
             create_time = str_to_date(#{list.createTime,jdbcType=VARCHAR},'%Y-%m-%d')
             where plan_no = #{list.planNo}
     </update>
-     <update id="updataTestDoc">
+    <update id="updataTestDoc">
         update ceshi set
         doc = #{filename},
         url = #{url}
@@ -56,43 +56,53 @@
         where id = #{planNo}
     </delete>
     <delete id="deleteByIdAll">
-         delete from ceshi
-          where plan_no in
-          <foreach collection="list" item="item" open="(" close=")" separator=",">
-              #{item.planNo,jdbcType=VARCHAR}
-          </foreach>
+        delete from ceshi
+        where plan_no in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.planNo,jdbcType=VARCHAR}
+        </foreach>
     </delete>
-
-
+    <delete id="del">
+        delete from ${tableName}
+        where plan_no
+        not in
+        (SELECT t.plan_no
+        from
+        (SELECT plan_no
+        from ${tableName}
+        order by create_time desc
+        limit #{ceshiCount}) t)
+    </delete>
     <select id="findAll" resultMap="getTest" parameterType="map">
-            select
-             id,
-             plan_no,
-             DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s') end_time,
-             DATE_FORMAT(stat_time,'%Y-%m-%d %H:%i:%s') stat_time,
-             DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
-             doc,
-             url
-            from ceshi
-            where 1 = 1
-                <choose>
-                <when test="endTime != null and endTime!= '' and statTime != null and statTime!= ''">
-                    and (stat_time <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s') and end_time <![CDATA[ >= ]]> DATE_FORMAT(#{statTime},'%Y-%m-%d %H:%i:%s'))
-                </when>
-                <when test="statTime != null and statTime!= ''">
-                    and end_time <![CDATA[ >= ]]> DATE_FORMAT(#{statTime},'yyyy-MM-dd')
-                </when>
-                <when test="endDate != null and endDate != ''">
-                    and stat_time <![CDATA[ <= ]]> DATE_FORMAT(#{endTime}, 'yyyy-MM-dd')
-                </when>
-                </choose>
-                <if test="planNo != null and planNo != '' ">
-                    and plan_no=#{planNo}
-                </if>
-                <if test="createTime != null and createTime!= '' ">
-                    and create_time = DATE_FORMAT(#{createTime,jdbcType=VARCHAR},'%Y-%m-%d')
-                </if>
-            order by create_time desc
+        select
+        id,
+        plan_no,
+        DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s') end_time,
+        DATE_FORMAT(stat_time,'%Y-%m-%d %H:%i:%s') stat_time,
+        DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
+        doc,
+        url
+        from ceshi
+        where 1 = 1
+        <choose>
+            <when test="endTime != null and endTime!= '' and statTime != null and statTime!= ''">
+                and (stat_time <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s') and end_time
+                <![CDATA[ >= ]]> DATE_FORMAT(#{statTime},'%Y-%m-%d %H:%i:%s'))
+            </when>
+            <when test="statTime != null and statTime!= ''">
+                and end_time <![CDATA[ >= ]]> DATE_FORMAT(#{statTime},'yyyy-MM-dd')
+            </when>
+            <when test="endDate != null and endDate != ''">
+                and stat_time <![CDATA[ <= ]]> DATE_FORMAT(#{endTime}, 'yyyy-MM-dd')
+            </when>
+        </choose>
+        <if test="planNo != null and planNo != '' ">
+            and plan_no=#{planNo}
+        </if>
+        <if test="createTime != null and createTime!= '' ">
+            and create_time = DATE_FORMAT(#{createTime,jdbcType=VARCHAR},'%Y-%m-%d')
+        </if>
+        order by create_time desc
 
     </select>
     <select id="getById" resultMap="getTest" parameterType="map">
@@ -107,22 +117,23 @@
              from ceshi where plan_no = #{planNo}
     </select>
     <select id="getByIdMonth" resultMap="getTest" parameterType="map">
-         select
-            id,
-            plan_no,
-            DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s') end_time,
-            DATE_FORMAT(stat_time,'%Y-%m-%d %H:%i:%s') stat_time,
-            DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
-            doc,
-            url
+        select
+        id,
+        plan_no,
+        DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s') end_time,
+        DATE_FORMAT(stat_time,'%Y-%m-%d %H:%i:%s') stat_time,
+        DATE_FORMAT(create_time,'%Y-%m-%d') create_time,
+        doc,
+        url
         from ceshi
         <where>
-        <if test="planNo != null and planNo != '' ">
-            and plan_no=#{planNo}
-        </if>
-        <if test="endTime != null and endTime!= '' and statTime != null and statTime!= ''">
-            and (stat_time <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s') and end_time <![CDATA[ >= ]]> DATE_FORMAT(#{statTime},'%Y-%m-%d %H:%i:%s'))
-        </if>
+            <if test="planNo != null and planNo != '' ">
+                and plan_no=#{planNo}
+            </if>
+            <if test="endTime != null and endTime!= '' and statTime != null and statTime!= ''">
+                and (stat_time <![CDATA[ <= ]]> DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s') and end_time
+                <![CDATA[ >= ]]> DATE_FORMAT(#{statTime},'%Y-%m-%d %H:%i:%s'))
+            </if>
         </where>
     </select>
 

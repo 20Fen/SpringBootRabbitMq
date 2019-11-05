@@ -3,6 +3,7 @@ package com.example.demo.system.service.impl;
 import com.example.demo.system.dao.mapper.TestMapper;
 import com.example.demo.system.model.po.*;
 import com.example.demo.system.service.TestService;
+import com.example.demo.system.util.TableAll;
 import com.exception.CustomException;
 import com.example.demo.system.util.DateUtil;
 import com.example.demo.system.util.TestUtil;
@@ -36,6 +37,9 @@ public class TestServiceImpl implements TestService {
 
     @Value("${paths}")
     private String path;
+
+    @Value("${ceshiCount}")
+    private Integer ceshiCount;
 
     /**
      * Description: 根据条件进行查询
@@ -80,6 +84,8 @@ public class TestServiceImpl implements TestService {
             testPo.setId(UUID.randomUUID().toString());
             //调用执行新建语句
             testMapper.insertTest(testPo);
+            //超过30条就删除老数据
+            del();
         } else {
             //不为空就是修改
             testPo.setPlanNo(planNo);
@@ -348,5 +354,14 @@ public class TestServiceImpl implements TestService {
             return "1";
         }
         return null;
+    }
+
+    /**
+     * 删除老数据
+     */
+    public void del() {
+
+       String tableName = TableAll.table.replaceAll("-","");
+        testMapper.del(tableName,ceshiCount);
     }
 }

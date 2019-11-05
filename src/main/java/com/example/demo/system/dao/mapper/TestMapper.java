@@ -42,7 +42,10 @@ public interface TestMapper {
 
     //    删除数据
     Integer deleteByIdImage(Map<String, Object> map);
+
     //    删除数据
     Integer deleteById(Map<String, Object> map);
 
+    //  删除最老数据  多个入参必须要用@Param()注解表明，或者传参传map
+    Integer del(@Param("tableName") String tableName,@Param("ceshiCount") Integer ceshiCount);
 }
