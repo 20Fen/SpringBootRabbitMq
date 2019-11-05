@@ -84,7 +84,7 @@ public class TestServiceImpl implements TestService {
             testPo.setId(UUID.randomUUID().toString());
             //调用执行新建语句
             testMapper.insertTest(testPo);
-            //超过30条就删除老数据
+            //超过3条就删除老数据
             del();
         } else {
             //不为空就是修改
