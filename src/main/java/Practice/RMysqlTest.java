@@ -36,7 +36,7 @@ public class RMysqlTest {
 
     private static void insert(Connection conn) throws SQLException {
 
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = null;
 //        开始时间
         long start = System.currentTimeMillis();
 //        sql 编写
