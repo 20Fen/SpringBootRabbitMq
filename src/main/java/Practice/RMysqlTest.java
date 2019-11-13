@@ -1,5 +1,7 @@
 package Practice;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,6 +16,7 @@ import static org.apache.naming.SelectorContext.prefix;
  * @date 2019年09月29日 9:43
  * Version 1.0
  */
+
 public class RMysqlTest {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
@@ -37,36 +40,44 @@ public class RMysqlTest {
     private static void insert(Connection conn) throws SQLException {
 
         StringBuilder builder = null;
-//        开始时间
         long start = System.currentTimeMillis();
+        try {
+//        开始时间
 //        sql 编写
-        String sql = "INSERT INTO service_diag_plan_process (pkid,plan_no,operator,operate_content,explain,create_time,plan_status) VALUES ";
-//         关闭事务
-        conn.setAutoCommit(false);
+            String sql = "INSERT INTO service_diag_plan_process (pkid,plan_no,operator,operate_content,explain,create_time,plan_status) VALUES ";
+//         开启事务
+            conn.setAutoCommit(false);
 
 //        编译sql
-        Statement statement = conn.createStatement();
-        for (int i = 0; i <= 1; i++) {
+            Statement statement = conn.createStatement();
+            for (int i = 0; i <= 1; i++) {
 
-            builder = new StringBuilder();
+                builder = new StringBuilder();
 //          拼接sql
-            for (int j = 0; j <= 10; j++) {
-                builder.append("('" + UUID.randomUUID() + "','" + i * j + "','123'" + ",'456'" + ",'789'" + ",'2016-08-12 14:43:26'" + ",'测试'),");
-            }
-            String sql1 = sql + builder.substring(0, builder.length());
+                for (int j = 0; j <= 10; j++) {
+                    builder.append("('" + UUID.randomUUID() + "','" + i * j + "','123'" + ",'456'" + ",'789'" + ",'2016-08-12 14:43:26'" + ",'测试'),");
+                }
+                String sql1 = sql + builder.substring(0, builder.length());
 //            统一添加，统一执行
-            statement.addBatch(sql1);
-            statement.executeBatch();
+                statement.addBatch(sql1);
+                statement.executeBatch();
 //            关闭事务
-            conn.commit();
-            builder = new StringBuilder();
-
+                conn.commit();
+                statement.close();
+                conn.close();
+                builder = new StringBuilder();
+            }
+        } catch (Exception e) {
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e.printStackTrace();
+            }
+            throw new RuntimeException(e);
         }
-        statement.close();
-        conn.close();
-
         // 结束时间
         Long end = System.currentTimeMillis();
         System.out.println("数据插入时间:" + (end - start) / 1000 + "s");
+
     }
 }
