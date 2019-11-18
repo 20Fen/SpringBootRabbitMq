@@ -194,21 +194,5 @@ public class TestController extends BaseController {
         System.out.println(s);
     }
 
-    @org.junit.Test
-    public void md5salt()
-    {
-//        String keyword="i love you";
-//        String md5=DigestUtils.md5Hex(keyword);
-//        System.out.println("md5加密后："+"\n"+md5);
-//        String md5salt=MD5.md5PlusSalt(keyword);
-//        System.out.println("加盐后："+"\n"+md5salt);
-//        String word= MD5.md5MinusSalt(md5salt);
-//        System.out.println("解密后："+"\n"+word);
-        String a="10.12145464";
-//        String effective = NumberUtil.getEffective(a);
-//        System.out.println(effective);
-        String effective1 = NumberUtil.getEffective(a, 3);
-        System.out.println(effective1);
-//        NumberUtil.getTwoPlace(a);
-    }
+
 }

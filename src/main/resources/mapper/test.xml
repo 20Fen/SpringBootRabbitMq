@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whg.test.userBean">
+    <!-- 批量插入  oracle的配置文件写法-->
+    <insert id="addUserByBatch" parameterType="java.util.List">
+        insert into test (
+        pkid,plan_no,operator,operate_content,explain,create_time,plan_status)
+        (
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            select
+            #{item.pkid,jdbcType=VARCHAR},
+            #{item.plan_no,jdbcType=VARCHAR},
+            #{item.operator,jdbcType=VARCHAR},
+            #{item.operate_content,jdbcType=VARCHAR},
+            #{item.explain,jdbcType=VARCHAR},
+            #{item.create_time,jdbcType=VARCHAR},
+            #{item.plan_status,jdbcType=VARCHAR}
+            from dual
+        </foreach>
+        )
+    </insert>
+
+    <!-- 批量插入  MYSQL 数据库的配置文件写法-->
+    <insert id="addfkxxByBatch" parameterType="java.util.List">
+        insert into test (
+        pkid,plan_no,operator,operate_content,explain,create_time,plan_status)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.pkid,jdbcType=VARCHAR},
+            #{item.plan_no,jdbcType=VARCHAR},
+            #{item.operator,jdbcType=VARCHAR},
+            #{item.operate_content,jdbcType=VARCHAR},
+            #{item.explain,jdbcType=VARCHAR},
+            #{item.create_time,jdbcType=VARCHAR},
+            #{item.plan_status,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+
+</mapper>
