@@ -26,7 +26,7 @@ public class NumberUtil {
     /**
      * @Description: 获取小数4位有效数据
      */
-    public static String getEffective(String number, int length) {
+    public static String getDecimal(String number, int length) {
         String result = "";
         if (StringUtils.isNotBlank(number)) {
             BigDecimal n4 = new BigDecimal(number);
@@ -44,7 +44,7 @@ public class NumberUtil {
     /**
      * @Description: 整数后保留两位百分之小数
      */
-    public static String getEffective(String number) {
+    public static String getTwo(String number) {
         String result = null;
         DecimalFormat df=new DecimalFormat("0.00");
         if (StringUtils.isNotBlank(number)) {

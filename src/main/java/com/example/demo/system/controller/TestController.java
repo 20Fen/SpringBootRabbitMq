@@ -204,10 +204,11 @@ public class TestController extends BaseController {
 //        System.out.println("加盐后："+"\n"+md5salt);
 //        String word= MD5.md5MinusSalt(md5salt);
 //        System.out.println("解密后："+"\n"+word);
-        String a="10";
-        String effective = NumberUtil.getEffective(a);
-        System.out.println(effective);
-//        NumberUtil.getEffective(a,3);
+        String a="10.12145464";
+//        String effective = NumberUtil.getEffective(a);
+//        System.out.println(effective);
+        String effective1 = NumberUtil.getEffective(a, 3);
+        System.out.println(effective1);
 //        NumberUtil.getTwoPlace(a);
     }
 }
