@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.DecimalFormat;
 
 /**
  * Description: 保留小数
@@ -39,4 +40,17 @@ public class NumberUtil {
         }
         return result;
     }
+
+    /**
+     * @Description: 获取小数4位有效数据
+     */
+    public static String getEffective(String number) {
+        String result = "";
+        if (StringUtils.isNotBlank(number)) {
+            DecimalFormat df=new DecimalFormat("0.00");
+            result = df.format(Integer.parseInt(number));
+        }
+        return result;
+    }
 }
+
