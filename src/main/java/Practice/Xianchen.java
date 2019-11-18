@@ -10,15 +10,24 @@ public class Xianchen {
 
     public static void main(String[] args) throws InterruptedException {
 
-        Thread thread1=new T1("123");
-        thread1.start();
+            double a=123164.14564135;
+//            保存小数点后两位
+           System.out.println(String.format("%.2f",a));
+//           去掉最后面两位
+           System.out.println(String.format("%02f",a));
+//            前面补0，正整数 int类型
+           System.out.println(String.format("%05d",12));
 
-        Thread thread2=new T2("465");
-        thread2.start();
-        thread2.join();
-
-        Thread thread3=new T3("789");
-        thread3.start();
+//            System.out.println(String.format("%02f",a));
+//        Thread thread1=new T1("123");
+//        thread1.start();
+//
+//        Thread thread2=new T2("465");
+//        thread2.start();
+//        thread2.join();
+//
+//        Thread thread3=new T3("789");
+//        thread3.start();
 
     }
 }
@@ -118,6 +127,7 @@ class T3 extends Thread {
         for (int i = 0; i < 10; i++) {
             System.out.println("3"+name);
         }
-
     }
+
+
 }
