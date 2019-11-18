@@ -42,13 +42,16 @@ public class NumberUtil {
     }
 
     /**
-     * @Description: 获取小数4位有效数据
+     * @Description: 整数后保留两位百分之小数
      */
     public static String getEffective(String number) {
-        String result = "";
+        String result = null;
+        DecimalFormat df=new DecimalFormat("0.00");
         if (StringUtils.isNotBlank(number)) {
-            DecimalFormat df=new DecimalFormat("0.00");
-            result = df.format(Integer.parseInt(number));
+            result = df.format(Integer.valueOf(number) * 100)+"%";
+        }else {
+            result = 0 + ".00%";;
+
         }
         return result;
     }

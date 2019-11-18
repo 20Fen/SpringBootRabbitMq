@@ -3,11 +3,8 @@ package com.example.demo.system.controller;
 import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
-import com.example.demo.system.util.AjaxResult;
-import com.example.demo.system.util.MD5;
+import com.example.demo.system.util.*;
 import com.exception.CustomException;
-import com.example.demo.system.util.ReturnInfo;
-import com.example.demo.system.util.TestUtil;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
@@ -200,12 +197,17 @@ public class TestController extends BaseController {
     @org.junit.Test
     public void md5salt()
     {
-        String keyword="i love you";
-        String md5=DigestUtils.md5Hex(keyword);
-        System.out.println("md5加密后："+"\n"+md5);
-        String md5salt=MD5.md5PlusSalt(keyword);
-        System.out.println("加盐后："+"\n"+md5salt);
-        String word= MD5.md5MinusSalt(md5salt);
-        System.out.println("解密后："+"\n"+word);
+//        String keyword="i love you";
+//        String md5=DigestUtils.md5Hex(keyword);
+//        System.out.println("md5加密后："+"\n"+md5);
+//        String md5salt=MD5.md5PlusSalt(keyword);
+//        System.out.println("加盐后："+"\n"+md5salt);
+//        String word= MD5.md5MinusSalt(md5salt);
+//        System.out.println("解密后："+"\n"+word);
+        String a="10";
+        String effective = NumberUtil.getEffective(a);
+        System.out.println(effective);
+//        NumberUtil.getEffective(a,3);
+//        NumberUtil.getTwoPlace(a);
     }
 }
