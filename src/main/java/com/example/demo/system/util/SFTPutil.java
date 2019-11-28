@@ -163,7 +163,7 @@ public class SFTPutil {
      * 列出目录下的文件
      *
      * @param directory 要列出的目录
-     * @param sftp
+     * @param
      */
     public Vector<?> listFiles(String directory) throws SftpException {
         //System.out.println(sftp.pwd());
@@ -190,7 +190,7 @@ public class SFTPutil {
     /**
      * 下载文件
      *
-     * @param directory
+     * @param
      * @param remoteFile 远程文件
      * @param localFile  本地文件
      */

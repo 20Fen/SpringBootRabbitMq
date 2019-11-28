@@ -5,10 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Description:
- *
- * @date 2019年09月29日 8:56
- * Version 1.0
+ * Description:Y
  */
 public class Doudizhu {
 
@@ -17,12 +14,12 @@ public class Doudizhu {
         List<String> color = new ArrayList();
         List<String> num = new ArrayList();
         List<String> zongpai = new ArrayList();
-//牌色
+        //牌色
         color.add("♠");
         color.add("♥");
         color.add("♦");
         color.add("♣");
-//数字
+        //数字
         for (int j = 1; j <= 10; j++) {
             num.add(j+"");
         }
@@ -30,7 +27,7 @@ public class Doudizhu {
         num.add("J");
         num.add("Q");
         num.add("K");
-//总张数
+        //总张数
         String pai=null;
         for (String o : color) {
             for (String o1 : num) {
