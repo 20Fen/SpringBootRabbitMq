@@ -9,7 +9,9 @@ import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -19,27 +21,19 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.net.URLEncoder;
-import java.security.MessageDigest;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Base64;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Description: controller restful风格
  */
-
+@Log4j2
 @RestController
 @Api(tags = "springBoot测试")
 public class TestController extends BaseController {
 
-    @Resource
+    @Autowired
     private TestService testService;
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)

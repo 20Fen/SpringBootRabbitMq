@@ -129,25 +129,12 @@ public class SFTPutil {
      * @param basePath     服务器的基础路径
      * @param directory    上传到该目录
      * @param sftpFileName sftp端文件名
-     * @param in           输入流
+     * @param input           输入流
      */
     public void upload(String basePath, String directory, String sftpFileName, InputStream input) throws SftpException {
         try {
-            //System.out.println(sftp.pwd());
             System.out.println("上传开始");
-
-//           File file = new File(sftpFileName);
-//            Vector<?> objects = listFiles(basePath +"/"+directory);
-//            for (Object object : objects) {
-//                if (object.equals(file.getName())) {
-//                    System.out.println("出现重名");
-//                    sftp.cd(basePath);
-//                    sftp.cd(directory);
-//                    sftp.put(input,file.getName()+"1");
-//                }}
-
             sftp.cd(basePath);
-            //sftp.cd(directory);
             sftp.put(input, sftpFileName);  //上传文件
             System.out.println("上传结束");
 
@@ -166,8 +153,6 @@ public class SFTPutil {
      * @param
      */
     public Vector<?> listFiles(String directory) throws SftpException {
-        //System.out.println(sftp.pwd());
-        // sftp.cd(directory);
         return sftp.ls(directory);
     }
 
@@ -182,8 +167,6 @@ public class SFTPutil {
         if (directory != null && !"".equals(directory)) {
             sftp.cd(directory);
         }
-
-        // File file = new File(saveFile);
         sftp.get(downloadFile, saveFile);
     }
 
