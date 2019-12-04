@@ -157,4 +157,10 @@
         LEFT JOIN image i
         on c.plan_no = i.id where c.plan_no =  #{planNo}
     </select>
+    <select id="getFilename" resultType="java.lang.Integer">
+        select count(id)
+        from ceshi c
+        where c.plan_no =  #{planNo}
+        and c.doc = #{doc}
+    </select>
 </mapper>

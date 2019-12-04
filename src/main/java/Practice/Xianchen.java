@@ -1,6 +1,15 @@
 package Practice;
 
+import org.apache.catalina.core.ApplicationPart;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.annotation.MultipartConfig;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Description:
@@ -30,15 +39,22 @@ public class Xianchen {
 //
 //        Thread thread3=new T3("789");
 //        thread3.start();
-
         String a ="D:\\file\\新建文本文档.txt";
+        File f =new File(a);
+        MultipartConfigFactory multipartConfigFactory=new MultipartConfigFactory();
+        multipartConfigFactory.setLocation(String.valueOf(f));
         FileInputStream in= null;
         BufferedInputStream buffIn= null;
         FileOutputStream out= null;
         try {
-            in= new FileInputStream(a);
+            in= new FileInputStream(a.trim());
             buffIn=new BufferedInputStream(in);
-            out=new FileOutputStream("D:\\新建文本文档.txt");
+            String[] split = a.split("\\\\");
+            Path path = Paths.get("D:\\"+ File.separator+split[2]);
+            MultipartConfigElement multipartConfig = multipartConfigFactory.createMultipartConfig();
+            byte[] bytes = multipartConfig.getLocation().getBytes();
+            Files.write(path,bytes);
+            out=new FileOutputStream("D:\\新建.txt");
             int i = buffIn.available();
             byte buffer[] = new byte[i];
             int len = 0;
@@ -67,7 +83,9 @@ public class Xianchen {
                 }
             }
         }
+        System.exit(0);
     }
+
 }
 
 //构造方法传值

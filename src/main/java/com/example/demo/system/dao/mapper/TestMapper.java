@@ -48,4 +48,7 @@ public interface TestMapper {
 
     //  删除最老数据  多个入参必须要用@Param()注解表明，或者传参传map
     Integer del(@Param("tableName") String tableName,@Param("ceshiCount") Integer ceshiCount);
+
+    //    判断文件名否存在
+    Integer getFilename(Map<String, Object> map);
 }

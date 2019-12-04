@@ -239,9 +239,10 @@ public class TestServiceImpl implements TestService {
         //得到上传的文件名
         String filename = file.getOriginalFilename();
         //调用执行查询语句
-        TestPo byId = testMapper.getById(map);
+        map.put("doc",filename);
+        Integer count = testMapper.getFilename(map);
         //判断路径是否为空
-        if (byId == null) {
+        if (count > 0) {
             throw new CustomException("文件已存在");
         }
         try {
