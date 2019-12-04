@@ -1,5 +1,7 @@
 package Practice;
 
+import java.io.*;
+
 /**
  * Description:
  *
@@ -10,13 +12,13 @@ public class Xianchen {
 
     public static void main(String[] args) throws InterruptedException {
 
-            double a=123164.14564135;
-//            保存小数点后两位
-           System.out.println(String.format("%.2f",a));
-//           去掉最后面两位
-           System.out.println(String.format("%02f",a));
-//            前面补0，正整数 int类型
-           System.out.println(String.format("%05d",12));
+//            double a=123164.14564135;
+////            保存小数点后两位
+//           System.out.println(String.format("%.2f",a));
+////           去掉最后面两位
+//           System.out.println(String.format("%02f",a));
+////            前面补0，正整数 int类型
+//           System.out.println(String.format("%05d",12));
 
 //            System.out.println(String.format("%02f",a));
 //        Thread thread1=new T1("123");
@@ -29,6 +31,42 @@ public class Xianchen {
 //        Thread thread3=new T3("789");
 //        thread3.start();
 
+        String a ="D:\\file\\新建文本文档.txt";
+        FileInputStream in= null;
+        BufferedInputStream buffIn= null;
+        FileOutputStream out= null;
+        try {
+            in= new FileInputStream(a);
+            buffIn=new BufferedInputStream(in);
+            out=new FileOutputStream("D:\\新建文本文档.txt");
+            int i = buffIn.available();
+            byte buffer[] = new byte[i];
+            int len = 0;
+            // 循环将输入流中的内容读取到缓冲区当中
+            while ((len = in.read(buffer)) > 0) {
+                // 输出缓冲区的内容到浏览器，实现文件下载
+                out.write(buffer, 0, len);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(in != null){
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(out != null){
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
 
