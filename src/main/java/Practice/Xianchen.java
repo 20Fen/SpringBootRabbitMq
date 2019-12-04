@@ -48,10 +48,12 @@ public class Xianchen {
             in= new FileInputStream(f);
             buffIn=new BufferedInputStream(in);
             String[] split = a.split("\\\\");
-            Path path = Paths.get("D:\\"+ File.separator+split[2]);
+//            第一种
+//            Path path = Paths.get("D:\\"+ File.separator+split[2]);
 //            byte file[] = new byte[buffIn.available()];
 //            int read = in.read(file);
 //            Files.write(path,file);
+//            第二种
             out=new FileOutputStream("D:\\新建.txt");
             int i = buffIn.available();
             byte buffer[] = new byte[i];
