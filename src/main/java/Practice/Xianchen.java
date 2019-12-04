@@ -40,17 +40,18 @@ public class Xianchen {
 //        Thread thread3=new T3("789");
 //        thread3.start();
         String a ="D:\\file\\新建文本文档.txt";
-        File f =new File(a);
+        File f =new File(a.trim());
         FileInputStream in= null;
         BufferedInputStream buffIn= null;
         FileOutputStream out= null;
         try {
-            in= new FileInputStream(a.trim());
+            in= new FileInputStream(f);
             buffIn=new BufferedInputStream(in);
             String[] split = a.split("\\\\");
             Path path = Paths.get("D:\\"+ File.separator+split[2]);
-            byte[] bytes = a.getBytes();
-            Files.write(path,bytes);
+//            byte file[] = new byte[buffIn.available()];
+//            int read = in.read(file);
+//            Files.write(path,file);
             out=new FileOutputStream("D:\\新建.txt");
             int i = buffIn.available();
             byte buffer[] = new byte[i];
