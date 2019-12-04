@@ -166,7 +166,7 @@
 
 
     <!--按账号查询用户信息 -->
-    <select id="getUser" resultType="com.hollysys.smartfactory.authentication.model.User" parameterType="String">
+    <select id="getUser" resultType="com.example.demo.system.model.po.TestPo1" parameterType="String">
         SELECT
             u.pkid AS ID,
             u.user_name AS username,
