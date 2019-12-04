@@ -41,8 +41,6 @@ public class Xianchen {
 //        thread3.start();
         String a ="D:\\file\\新建文本文档.txt";
         File f =new File(a);
-        MultipartConfigFactory multipartConfigFactory=new MultipartConfigFactory();
-        multipartConfigFactory.setLocation(String.valueOf(f));
         FileInputStream in= null;
         BufferedInputStream buffIn= null;
         FileOutputStream out= null;
@@ -51,8 +49,7 @@ public class Xianchen {
             buffIn=new BufferedInputStream(in);
             String[] split = a.split("\\\\");
             Path path = Paths.get("D:\\"+ File.separator+split[2]);
-            MultipartConfigElement multipartConfig = multipartConfigFactory.createMultipartConfig();
-            byte[] bytes = multipartConfig.getLocation().getBytes();
+            byte[] bytes = a.getBytes();
             Files.write(path,bytes);
             out=new FileOutputStream("D:\\新建.txt");
             int i = buffIn.available();
