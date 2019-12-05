@@ -10,7 +10,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class Test {
     public static void main(String[] args) {
 
-
         String keyword="i love you";
         String md5= DigestUtils.md5Hex(keyword);
         System.out.println("md5加密后："+"\n"+md5);
