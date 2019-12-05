@@ -41,25 +41,48 @@ public class Xianchen {
 //        thread3.start();
         String a ="D:\\file\\新建文本文档.txt";
         File f =new File(a.trim());
+//        方法1
+//        copyOne(f);
+//        方法2
+       copyTwo(f);
+        System.exit(0);
+    }
+//    方法1
+   public static void copyOne(File f){
+
+       FileInputStream in= null;
+       BufferedInputStream buffIn= null;
+       try {
+           in =new FileInputStream(f);
+           buffIn = new BufferedInputStream(in);
+           String name = f.getName();
+           Path path = Paths.get("D:\\"+ File.separator+name);
+           byte file[] = new byte[buffIn.available()];
+           int read = in.read(file);
+           Files.write(path,file);
+       } catch (FileNotFoundException e) {
+           e.printStackTrace();
+       } catch (IOException e) {
+           e.printStackTrace();
+       }finally {
+           close(in,buffIn,null);
+       }
+   }
+//    方法2
+    public static void copyTwo(File f){
+
         FileInputStream in= null;
         BufferedInputStream buffIn= null;
         FileOutputStream out= null;
         try {
-            in= new FileInputStream(f);
-            buffIn=new BufferedInputStream(in);
-            String[] split = a.split("\\\\");
-//            第一种
-//            Path path = Paths.get("D:\\"+ File.separator+split[2]);
-//            byte file[] = new byte[buffIn.available()];
-//            int read = in.read(file);
-//            Files.write(path,file);
-//            第二种
+            in =new FileInputStream(f);
+            buffIn = new BufferedInputStream(in);
             out=new FileOutputStream("D:\\新建.txt");
             int i = buffIn.available();
             byte buffer[] = new byte[i];
             int len = 0;
             // 循环将输入流中的内容读取到缓冲区当中
-            while ((len = in.read(buffer)) > 0) {
+            while ((len = buffIn.read(buffer)) > 0) {
                 // 输出缓冲区的内容到浏览器，实现文件下载
                 out.write(buffer, 0, len);
             }
@@ -68,6 +91,12 @@ public class Xianchen {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
+            close(in,buffIn,out);
+        }
+    }
+//    关闭流
+    public static void close(FileInputStream in,BufferedInputStream buffIn,FileOutputStream out){
+
             if(in != null){
                 try {
                     in.close();
@@ -82,10 +111,14 @@ public class Xianchen {
                     e.printStackTrace();
                 }
             }
+        if(buffIn != null){
+            try {
+                buffIn.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        System.exit(0);
     }
-
 }
 
 //构造方法传值
