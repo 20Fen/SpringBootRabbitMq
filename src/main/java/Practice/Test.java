@@ -8,8 +8,8 @@ import org.apache.commons.codec.digest.DigestUtils;
  * Description:测试类
  */
 public class Test {
-
     public static void main(String[] args) {
+
 
         String keyword="i love you";
         String md5= DigestUtils.md5Hex(keyword);
