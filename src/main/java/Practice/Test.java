@@ -4,6 +4,8 @@ import com.example.demo.system.util.MD5;
 import com.example.demo.system.util.NumberUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.util.Random;
+
 /**
  * Description:测试类
  */
@@ -25,5 +27,7 @@ public class Test {
         System.out.println(effective1);
         String twoPlace = NumberUtil.getTwoPlace(a);
         System.out.println(twoPlace);
+
+
     }
 }
