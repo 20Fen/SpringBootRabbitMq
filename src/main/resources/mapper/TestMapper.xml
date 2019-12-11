@@ -65,7 +65,7 @@
     <delete id="del">
         delete from ${tableName}
         where plan_no
-        in
+        not in
         (SELECT t.plan_no
         from
         (SELECT plan_no
