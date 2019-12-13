@@ -6,11 +6,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Description:
- *
- * @author yangfl
- * @date 2019年11月25日 13:40
- * Version 1.0
+ * Description: sftp 服务器
  */
 public class SFTPutil {
     private ChannelSftp sftp;
