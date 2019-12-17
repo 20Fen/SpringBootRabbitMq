@@ -7,6 +7,7 @@ import com.example.demo.system.util.TableAll;
 import com.exception.CustomException;
 import com.example.demo.system.util.DateUtil;
 import com.example.demo.system.util.TestUtil;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.log4j.Log4j2;
@@ -50,13 +51,10 @@ public class TestServiceImpl implements TestService {
         //调用分页插件,执行的语句必须在插件的下面
         int limit = page != null ? page : 1;
         int offset = pageSize != null ? pageSize : 10;
-        PageHelper.startPage(limit, offset);
+        PageHelper.startPage(limit, offset, true);
         List<TestPo> all = testMapper.findAll(map);
-        if (StringUtils.isEmpty(all)) {
-            throw new CustomException("查询失败");
-        }
 //        返回的必须是查询出来的数据集合
-        return new PageInfo<>(all);
+        return new PageInfo<TestPo>(all);
     }
 
     /**
