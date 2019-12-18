@@ -4,7 +4,6 @@ package com.exception;
  * Description: 自定义异常类
  */
 public class CustomException extends RuntimeException {
-    private static final long	serialVersionUID	= 12L;
     private int					errorCode;
     private String				message;
 
