@@ -4,6 +4,7 @@ package com.exception;
  * Description: 返回值
  */
 public class AjaxResult {
+
     public static final int		AJAX_STATUS_SUCCESS		= 0;
     public static final int		AJAX_STATUS_ERROR		= -999;
     public static final String	AJAX_MESSAGE_SUCCESS	= "success";
