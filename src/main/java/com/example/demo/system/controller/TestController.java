@@ -37,7 +37,7 @@ public class TestController extends BaseController {
     @Autowired
     private TestService testService;
 
-    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    @GetMapping(value = "/findAll")
     @ApiOperation("按条件查询，查询全部")
     public PageInfo<TestPo> findAll(@RequestParam(required = true, value = "page") Integer page,
                                     @RequestParam(required = true, value = "pageSize") Integer pageSize,
@@ -61,7 +61,7 @@ public class TestController extends BaseController {
         return all;
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @PostMapping(value = "/test")
     @ApiOperation("添加数据")
     public AjaxResult insert(@Valid @RequestBody TestBo test, BindingResult result) throws Exception {
         test.validate(result);
@@ -73,9 +73,9 @@ public class TestController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/byId/{planNo}", method = RequestMethod.GET)
+    @GetMapping(value = "/byId/{planNo}")
     @ApiOperation("详情查看")
-    public AjaxResult byId(@PathVariable("planNo")String planNo) throws Exception {
+    public AjaxResult byId(@PathVariable("planNo")String planNo)  {
 
         TestPo test = testService.getById(planNo);
         if (StringUtils.isEmpty(test)) {
@@ -84,7 +84,7 @@ public class TestController extends BaseController {
         return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
 
-    @RequestMapping(value = "/byIdMonth/{planNo}", method = RequestMethod.GET)
+    @GetMapping(value = "/byIdMonth/{planNo}")
     @ApiOperation("根据id查询上个月数据")
     public AjaxResult byIdMonth(@PathVariable("planNo")String planNo) throws Exception {
 
@@ -95,7 +95,7 @@ public class TestController extends BaseController {
         return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/delete")
     @ApiOperation("批量删除数据")
     public AjaxResult deleteById(@Valid @RequestBody Test test) throws Exception {
         String byId = testService.delete(test);
@@ -105,7 +105,7 @@ public class TestController extends BaseController {
         return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
 
-    @RequestMapping(value = "/file/{planNo}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/file/{planNo}")
     @ApiOperation("删除文件")
     public AjaxResult deleteUrl(@PathVariable("planNo") String planNo) throws Exception {
 
@@ -116,7 +116,7 @@ public class TestController extends BaseController {
         return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
 
-    @RequestMapping(value = "/upload/{planNo}", method = RequestMethod.POST)
+    @PostMapping(value = "/upload/{planNo}")
     @ApiOperation("上传文件")
     public AjaxResult upload(@PathVariable("planNo") String planNo, @RequestParam("file")MultipartFile file) throws Exception {
 
@@ -127,7 +127,7 @@ public class TestController extends BaseController {
         return success((ReturnInfo.UPLOAD_SUCCESS_MSG), name);
     }
 
-    @RequestMapping(value = "/downLoad/{planNo}", method = RequestMethod.GET)
+    @GetMapping(value = "/downLoad/{planNo}")
     @ApiOperation("下载文件")
     public AjaxResult downLoad(@PathVariable("planNo") String planNo, HttpServletResponse response) throws Exception {
 
