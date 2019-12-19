@@ -63,7 +63,7 @@ public class TestController extends BaseController {
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     @ApiOperation("添加数据")
-    public AjaxResult insert(@Valid @RequestBody TestBo test, BindingResult result)  {
+    public AjaxResult insert(@Valid @RequestBody TestBo test, BindingResult result) throws Exception {
         test.validate(result);
         String testId = testService.insert(test);
         if (StringUtils.isEmpty(test.getPlanNo())) {
