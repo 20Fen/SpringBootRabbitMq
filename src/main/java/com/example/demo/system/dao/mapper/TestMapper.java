@@ -1,5 +1,6 @@
 package com.example.demo.system.dao.mapper;
 
+import com.example.demo.system.model.bo.TestBo;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.model.po.TestPo1;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,10 +18,10 @@ public interface TestMapper {
     List<TestPo> findAll(Map<String, Object> map);
 
     //    新建
-    Integer insertTest(@Param("list") TestPo testPo);
+    Integer insertTest(@Param("list") TestBo test);
 
     //    修改
-    Integer updataTest(@Param("list") TestPo testPo);
+    Integer updataTest(@Param("list") TestBo test);
 
     //    根据id查询
     TestPo getById(Map<String, Object> map);

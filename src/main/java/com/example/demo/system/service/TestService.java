@@ -17,16 +17,16 @@ import java.util.Map;
 
 public interface TestService {
     //    根据条件查询
-    PageInfo<TestPo> findAll(Integer page, Integer pageSize,Map<String,Object> map) throws Exception;
+    PageInfo<TestPo> findAll(Integer page, Integer pageSize,Map<String,Object> map);
 
     //    新建和修改
     String insert(TestBo test) throws Exception;
 
     //    根据id查询
-    TestPo getById(String planNo) throws Exception;
+    TestPo getById(String planNo);
 
     //    根据id查询上月数据
-    TestPo getByIdMonth(String planNo) throws Exception;
+    TestPo getByIdMonth(String planNo);
 
     //    上传文件
     String upload(String planNo, MultipartFile file) throws Exception;

@@ -48,7 +48,7 @@ public class TestServiceImpl implements TestService {
      * Description: 根据条件进行查询
      */
     @Override
-    public PageInfo<TestPo> findAll(Integer page, Integer pageSize, Map<String, Object> map) throws Exception {
+    public PageInfo<TestPo> findAll(Integer page, Integer pageSize, Map<String, Object> map) {
         //前台必须传分页值
         //调用分页插件,执行的语句必须在插件的下面
         int limit = page != null ? page : 1;
@@ -85,7 +85,7 @@ public class TestServiceImpl implements TestService {
             //为空就是新建
             testPo.setId(UUID.randomUUID().toString());
             //调用执行新建语句
-            testMapper.insertTest(testPo);
+            testMapper.insertTest(test);
             //超过3条就删除老数据
             del();
         } else {
@@ -100,7 +100,7 @@ public class TestServiceImpl implements TestService {
             testPo.setId(testPo1.getId());
             testPo.setUpdateTime(formatDate);
             //调用执行修改语句
-            testMapper.updataTest(testPo);
+            testMapper.updataTest(test);
         }
         return planNoId;
     }
@@ -110,7 +110,7 @@ public class TestServiceImpl implements TestService {
      */
     @Override
     @Transactional
-    public TestPo getById(String planNo) throws Exception {
+    public TestPo getById(String planNo) {
 
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(planNo)) {
@@ -130,7 +130,7 @@ public class TestServiceImpl implements TestService {
      */
     @Override
     @Transactional
-    public TestPo getByIdMonth(String planNo) throws Exception {
+    public TestPo getByIdMonth(String planNo) {
 
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(planNo)) {
@@ -288,7 +288,7 @@ public class TestServiceImpl implements TestService {
     /**
      * @description 检测文件大小
      */
-    private Integer checkFileSize(long size, String savePath) throws Exception {
+    private Integer checkFileSize(long size, String savePath)  {
         //获取存储当前文件后剩余的磁盘空间
         Long space = TestUtil.getFreeDiskSpace(savePath);
         File file = new File(savePath);
@@ -314,7 +314,7 @@ public class TestServiceImpl implements TestService {
      */
     @Override
     @Transactional
-    public String deleteUrlAll(String planNo) throws CustomException, IOException {
+    public String deleteUrlAll(String planNo) throws IOException {
 
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(planNo)) {
