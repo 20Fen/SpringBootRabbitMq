@@ -1,11 +1,12 @@
 package com.example.demo.system.model.po;
 
 import com.example.demo.system.model.bo.BaseProtocolIn;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 /**
  * Description: 数据库model
  */
@@ -28,6 +29,7 @@ public class TestPo extends BaseProtocolIn {
     private String endTime;
     private String statTime;
     private String createTime;
+    private String updateTime;
     private String doc;
     private String url;
 

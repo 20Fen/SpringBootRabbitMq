@@ -1,5 +1,6 @@
 package com.example.demo.system.controller;
 
+import com.example.demo.system.model.bo.TestBo;
 import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
@@ -62,7 +63,7 @@ public class TestController extends BaseController {
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     @ApiOperation("添加数据")
-    public AjaxResult insert(@Valid @RequestBody TestPo testPo, BindingResult result) throws Exception {
+    public AjaxResult insert(@Valid @RequestBody TestBo testPo, BindingResult result) throws Exception {
         testPo.validate(result);
         String testId = testService.insert(testPo);
         if (StringUtils.isEmpty(testPo.getPlanNo())) {

@@ -1,5 +1,6 @@
 package com.example.demo.system.service;
 
+import com.example.demo.system.model.bo.TestBo;
 import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.exception.CustomException;
@@ -19,7 +20,7 @@ public interface TestService {
     PageInfo<TestPo> findAll(Integer page, Integer pageSize,Map<String,Object> map) throws Exception;
 
     //    新建和修改
-    String insert(TestPo test) throws Exception;
+    String insert(TestBo test) throws Exception;
 
     //    根据id查询
     TestPo getById(String planNo) throws Exception;

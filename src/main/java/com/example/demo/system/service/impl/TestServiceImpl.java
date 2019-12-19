@@ -1,6 +1,7 @@
 package com.example.demo.system.service.impl;
 
 import com.example.demo.system.dao.mapper.TestMapper;
+import com.example.demo.system.model.bo.TestBo;
 import com.example.demo.system.model.po.*;
 import com.example.demo.system.service.TestService;
 import com.example.demo.system.util.TableAll;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -51,10 +53,9 @@ public class TestServiceImpl implements TestService {
         //调用分页插件,执行的语句必须在插件的下面
         int limit = page != null ? page : 1;
         int offset = pageSize != null ? pageSize : 10;
-        PageHelper.startPage(limit, offset, true);
-        List<TestPo> all = testMapper.findAll(map);
-//        返回的必须是查询出来的数据集合
-        return new PageInfo<TestPo>(all);
+        PageHelper.startPage(limit, offset);
+        List<TestPo> demos = testMapper.findAll(map);
+            return new PageInfo<>(demos);
     }
 
     /**
@@ -62,7 +63,7 @@ public class TestServiceImpl implements TestService {
      */
     @Override
     @Transactional
-    public String insert(TestPo test) throws Exception {
+    public String insert(TestBo test) throws Exception {
 
         Map<String, Object> map = new HashMap<>();
         //UUID
@@ -71,11 +72,14 @@ public class TestServiceImpl implements TestService {
         String planNo = test.getPlanNo();
         planNoId = StringUtils.isEmpty(planNo) ? planNoId : planNo;
 
+        Date date=new Date();
+        String formatDate = DateUtil.formatDate(date);
+
         TestPo testPo = new TestPo();
         testPo.setPlanNo(planNoId);
         testPo.setStatTime(test.getStatTime());
         testPo.setEndTime(test.getEndTime());
-        testPo.setCreateTime(test.getCreateTime());
+        testPo.setCreateTime(formatDate);
         //判断PlanNo是否为空
         if (StringUtils.isEmpty(planNo)) {
             //为空就是新建
@@ -94,6 +98,7 @@ public class TestServiceImpl implements TestService {
                 throw new CustomException("数据不存在");
             }
             testPo.setId(testPo1.getId());
+            testPo.setUpdateTime(formatDate);
             //调用执行修改语句
             testMapper.updataTest(testPo);
         }
