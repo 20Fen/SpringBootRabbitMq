@@ -18,10 +18,10 @@ public interface TestMapper {
     List<TestPo> findAll(Map<String, Object> map);
 
     //    新建
-    Integer insertTest(@Param("list") TestBo test);
+    Integer insertTest(@Param("list") TestPo test);
 
     //    修改
-    Integer updataTest(@Param("list") TestBo test);
+    Integer updataTest(@Param("list") TestPo test);
 
     //    根据id查询
     TestPo getById(Map<String, Object> map);

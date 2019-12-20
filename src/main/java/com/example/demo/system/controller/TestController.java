@@ -25,6 +25,7 @@ import java.io.File;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Description: controller restful风格
@@ -39,7 +40,7 @@ public class TestController extends BaseController {
 
     @GetMapping(value = "/findAll")
     @ApiOperation("按条件查询，查询全部")
-    public PageInfo<TestPo> findAll(@RequestParam(required = true, value = "page") Integer page,
+    public AjaxResult findAll(@RequestParam(required = true, value = "page") Integer page,
                                     @RequestParam(required = true, value = "pageSize") Integer pageSize,
                                     @RequestParam(required = false, value = "planNo") String planNo,
                                     @RequestParam(required = false, value = "statTime")String statTime,
@@ -57,16 +58,19 @@ public class TestController extends BaseController {
         map.put("endTime",endTime);
         map.put("createTime",createTime);
         PageInfo<TestPo> all = testService.findAll(page, pageSize, map);
-
-        return all;
+        if (Objects.nonNull(all)) {
+            return success(ReturnInfo.QUERY_SUCCESS_MSG, all);
+        } else {
+            return success(ReturnInfo.QUERY_FAIL_MSG);
+        }
     }
 
     @PostMapping(value = "/test")
     @ApiOperation("添加数据")
-    public AjaxResult insert(@Valid @RequestBody TestBo test, BindingResult result) throws Exception {
-        test.validate(result);
-        String testId = testService.insert(test);
-        if (StringUtils.isEmpty(test.getPlanNo())) {
+    public AjaxResult insert(@Valid @RequestBody TestBo testBo, BindingResult result) throws Exception {
+        testBo.validate(result);
+        String testId = testService.insert(testBo);
+        if (StringUtils.isEmpty(testBo.getPlanNo())) {
             return success(ReturnInfo.SAVE_SUCCESS_MSG, testId);
         } else {
             return success(ReturnInfo.UPDATE_SUCCESS_MSG, testId);
@@ -188,6 +192,8 @@ public class TestController extends BaseController {
         String s = MD5.md5("123");
         System.out.println(s);
     }
+
+
 
 
 }

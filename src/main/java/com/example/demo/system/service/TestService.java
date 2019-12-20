@@ -8,7 +8,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +19,7 @@ public interface TestService {
     PageInfo<TestPo> findAll(Integer page, Integer pageSize,Map<String,Object> map);
 
     //    新建和修改
-    String insert(TestBo test) throws Exception;
+    String insert(TestBo testBo) throws Exception;
 
     //    根据id查询
     TestPo getById(String planNo);

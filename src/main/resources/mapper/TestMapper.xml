@@ -14,12 +14,12 @@
 
 
     <insert id="insertTest">
-        insert into ceshi (id,plan_no,end_time,stat_time,create_time) values (
+        insert into ceshi (id,plan_no,end_time,stat_time) values (
             #{list.id},
 		    #{list.planNo},
 		    str_to_date(#{list.endTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
-		    str_to_date(#{list.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
-		    str_to_date(#{list.createTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'))
+		    str_to_date(#{list.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s')
+		    )
     </insert>
 
     <!--    批量插入-->
@@ -34,11 +34,10 @@
         </foreach>
     </insert>
 
-    <update id="updataTest" parameterType="map">
+    <update id="updataTest">
         update ceshi set
             stat_time = str_to_date(#{list.statTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
             end_time = str_to_date(#{list.endTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
-            create_time = str_to_date(#{list.createTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s'),
             update_time = str_to_date(#{list.updateTime,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%s')
             where plan_no = #{list.planNo}
     </update>

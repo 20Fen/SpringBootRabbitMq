@@ -8,7 +8,6 @@ import com.example.demo.system.util.TableAll;
 import com.exception.CustomException;
 import com.example.demo.system.util.DateUtil;
 import com.example.demo.system.util.TestUtil;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.log4j.Log4j2;
@@ -25,7 +24,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -51,11 +49,12 @@ public class TestServiceImpl implements TestService {
     public PageInfo<TestPo> findAll(Integer page, Integer pageSize, Map<String, Object> map) {
         //前台必须传分页值
         //调用分页插件,执行的语句必须在插件的下面
-        int limit = page != null ? page : 1;
-        int offset = pageSize != null ? pageSize : 10;
-        PageHelper.startPage(limit, offset);
-        List<TestPo> demos = testMapper.findAll(map);
-            return new PageInfo<>(demos);
+        int limit = pageSize != null ? pageSize : 10;
+        int offset = page != null ? page : 1;
+        PageHelper.startPage(offset, limit);
+        List<TestPo> testPos = testMapper.findAll(map);
+        PageInfo<TestPo> pageInfo = new PageInfo<TestPo>(testPos);
+        return pageInfo;
     }
 
     /**
@@ -63,13 +62,13 @@ public class TestServiceImpl implements TestService {
      */
     @Override
     @Transactional
-    public String insert(TestBo test) throws Exception {
+    public String insert(TestBo testBo) throws Exception {
 
         Map<String, Object> map = new HashMap<>();
         //UUID
         String planNoId = UUID.randomUUID().toString();
 
-        String planNo = test.getPlanNo();
+        String planNo = testBo.getPlanNo();
         planNoId = StringUtils.isEmpty(planNo) ? planNoId : planNo;
 
         Date date=new Date();
@@ -77,15 +76,15 @@ public class TestServiceImpl implements TestService {
 
         TestPo testPo = new TestPo();
         testPo.setPlanNo(planNoId);
-        testPo.setStatTime(test.getStatTime());
-        testPo.setEndTime(test.getEndTime());
+        testPo.setStatTime(testBo.getStatTime());
+        testPo.setEndTime(testBo.getEndTime());
         testPo.setCreateTime(formatDate);
         //判断PlanNo是否为空
         if (StringUtils.isEmpty(planNo)) {
             //为空就是新建
             testPo.setId(UUID.randomUUID().toString());
             //调用执行新建语句
-            testMapper.insertTest(test);
+            testMapper.insertTest(testPo);
             //超过3条就删除老数据
             del();
         } else {
@@ -100,7 +99,7 @@ public class TestServiceImpl implements TestService {
             testPo.setId(testPo1.getId());
             testPo.setUpdateTime(formatDate);
             //调用执行修改语句
-            testMapper.updataTest(test);
+            testMapper.updataTest(testPo);
         }
         return planNoId;
     }

@@ -1,6 +1,7 @@
 package com.example.demo.system.model.po;
 
 import com.example.demo.system.model.bo.BaseProtocolIn;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
  * Description: 数据库model
  */
 //字段值为空的不展示
-//@JsonInclude(value = JsonInclude.Include.NON_NULL)
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 @Data
 @ApiModel(value = "数据库model")
 public class TestPo extends BaseProtocolIn {
