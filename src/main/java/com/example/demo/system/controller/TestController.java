@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +41,12 @@ public class TestController extends BaseController {
 
     @GetMapping(value = "/findAll")
     @ApiOperation("按条件查询，查询全部")
-    public AjaxResult findAll(@RequestParam(required = true, value = "page") Integer page,
-                                    @RequestParam(required = true, value = "pageSize") Integer pageSize,
-                                    @RequestParam(required = false, value = "planNo") String planNo,
-                                    @RequestParam(required = false, value = "statTime")String statTime,
-                                    @RequestParam(required = false, value = "endTime")String endTime,
-                                    @RequestParam(required = false, value = "createTime")String createTime) throws Exception {
+    public AjaxResult findAll(@RequestParam (required = true, value = "page") @ApiParam(value = "当前页") Integer page,
+                              @RequestParam(required = true, value = "pageSize") @ApiParam(value = "每页数量") Integer pageSize,
+                              @RequestParam(required = false, value = "planNo") String planNo,
+                              @RequestParam(required = false, value = "statTime")String statTime,
+                              @RequestParam(required = false, value = "endTime")String endTime,
+                              @RequestParam(required = false, value = "createTime")String createTime) throws Exception {
 
         if (statTime != null && endTime != null) {
             if (statTime.compareTo(endTime) >= 0) {
@@ -61,7 +62,7 @@ public class TestController extends BaseController {
         if (Objects.nonNull(all)) {
             return success(ReturnInfo.QUERY_SUCCESS_MSG, all);
         } else {
-            return success(ReturnInfo.QUERY_FAIL_MSG);
+            return error(ReturnInfo.QUERY_FAIL_MSG);
         }
     }
 
@@ -83,7 +84,7 @@ public class TestController extends BaseController {
 
         TestPo test = testService.getById(planNo);
         if (StringUtils.isEmpty(test)) {
-            return success(ReturnInfo.QUERY_FAIL_MSG);
+            return error(ReturnInfo.QUERY_FAIL_MSG);
         }
         return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
@@ -94,7 +95,7 @@ public class TestController extends BaseController {
 
         TestPo test = testService.getByIdMonth(planNo);
         if (StringUtils.isEmpty(test)) {
-            return success(ReturnInfo.QUERY_FAIL_MSG);
+            return error(ReturnInfo.QUERY_FAIL_MSG);
         }
         return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
@@ -104,7 +105,7 @@ public class TestController extends BaseController {
     public AjaxResult deleteById(@Valid @RequestBody Test test) throws Exception {
         String byId = testService.delete(test);
         if (StringUtils.isEmpty(byId)) {
-            return success(ReturnInfo.DEL_FAIL_MSG);
+            return error(ReturnInfo.DEL_FAIL_MSG);
         }
         return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
@@ -115,7 +116,7 @@ public class TestController extends BaseController {
 
         String byId = testService.deleteUrl(planNo);
         if (StringUtils.isEmpty(byId)) {
-            return success(ReturnInfo.DEL_FAIL_MSG);
+            return error(ReturnInfo.DEL_FAIL_MSG);
         }
         return success((ReturnInfo.DEL_SUCCESS_MSG), byId);
     }
@@ -126,7 +127,7 @@ public class TestController extends BaseController {
 
         String name = testService.upload(planNo, file);
         if (name.equals("2")) {
-            return success(ReturnInfo.UPLOAD_FAIL_MSG);
+            return error(ReturnInfo.UPLOAD_FAIL_MSG);
         }
         return success((ReturnInfo.UPLOAD_SUCCESS_MSG), name);
     }
@@ -145,14 +146,14 @@ public class TestController extends BaseController {
             throw new CustomException("数据不存在");
         }
         if (null == test.getDoc() || test.getDoc().equals("") || null == test.getUrl() || test.getUrl().equals("")) {
-            return success(ReturnInfo.DOWNLOAD_ERROR_MSG);
+            return error(ReturnInfo.DOWNLOAD_ERROR_MSG);
         }
         String fileName = test.getDoc();
         String fileUrl = test.getUrl();
         File file = new File(fileUrl);
         //如果文件不存在
         if (!file.exists()) {
-            return success(ReturnInfo.DOWNLOAD_ERROR_MSG);
+            return error(ReturnInfo.DOWNLOAD_ERROR_MSG);
         }
 //        匹配文件类型，保障上传的类型和下载的类型一致
         response.setHeader("Content-Type", "application/octet-stream");
@@ -169,7 +170,7 @@ public class TestController extends BaseController {
         for (MultipartFile multipartFile : file) {
             String name = testService.upload(planNo, multipartFile);
             if (name.equals("2")) {
-                return success(ReturnInfo.UPLOAD_FAIL_MSG);
+                return error(ReturnInfo.UPLOAD_FAIL_MSG);
             }
             return success((ReturnInfo.UPLOAD_SUCCESS_MSG), name);
         }
@@ -182,7 +183,7 @@ public class TestController extends BaseController {
 
         String byId = testService.deleteUrlAll(planNo);
         if (StringUtils.isEmpty(byId)) {
-            return success(ReturnInfo.DEL_FAIL_MSG);
+            return error(ReturnInfo.DEL_FAIL_MSG);
         }
         return success((ReturnInfo.DEL_SUCCESS_MSG), planNo);
     }
