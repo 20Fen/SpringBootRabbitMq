@@ -94,9 +94,6 @@ public class AjaxResult {
     /**
      * 项目: SF_Common
      * 描述: ajax响应重构
-     * 作者: zhangyi183790
-     * 时间: 2019年3月13日 下午3:22:41
-     * 版本: v1.0
      * JDK: 1.8
      */
     public static class PAjaxResult extends AjaxResult {
