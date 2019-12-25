@@ -222,7 +222,7 @@
         <result column="name" property="name" ></result>
     </resultMap>
     <select id="getCity" resultMap="city">
-        select id,pid,name from province_city_district where 1 = 1
+        select id,pid,name from city where 1 = 1
         <if test="pid != null and pid != '' ">
             and pid = #{pid}
         </if>
