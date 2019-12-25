@@ -4,10 +4,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 
 /**
- * Description:
+ * Description: 省级区域
  */
 @Data
 @Setter

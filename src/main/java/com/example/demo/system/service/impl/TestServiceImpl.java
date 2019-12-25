@@ -369,7 +369,7 @@ public class TestServiceImpl implements TestService {
     }
 
     /**
-     * Description: 根据ID查询数据
+     * Description: 根据ID查询区域
      */
     @Override
     public List<City> getCity(String pId) {
