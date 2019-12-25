@@ -1,6 +1,6 @@
 package com.example.demo.system.dao.mapper;
 
-import com.example.demo.system.model.bo.TestBo;
+import com.example.demo.system.model.po.City;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.model.po.TestPo1;
 import org.apache.ibatis.annotations.Mapper;
@@ -48,8 +48,10 @@ public interface TestMapper {
     Integer deleteById(Map<String, Object> map);
 
     //  删除最老数据  多个入参必须要用@Param()注解表明，或者传参传map
-    Integer del(@Param("tableName") String tableName,@Param("ceshiCount") Integer ceshiCount);
+    Integer del(@Param("tableName") String tableName , @Param("ceshiCount") Integer ceshiCount);
 
     //    判断文件名否存在
     Integer getFilename(Map<String, Object> map);
+
+    List<City> getCity(Map<String, Object> map);
 }

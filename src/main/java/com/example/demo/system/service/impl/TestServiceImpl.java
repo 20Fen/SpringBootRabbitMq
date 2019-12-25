@@ -367,4 +367,21 @@ public class TestServiceImpl implements TestService {
        String tableName = TableAll.table.replaceAll("-","");
         testMapper.del(tableName,ceshiCount);
     }
+
+    /**
+     * Description: 根据ID查询数据
+     */
+    @Override
+    public List<City> getCity(String pId) {
+
+        Map<String,Object> map=new HashMap<>();
+        List<City> list= new ArrayList<>();
+        //调用执行查询语句
+        map.put("pid",pId);
+        List<City> tests = testMapper.getCity(map);
+        return tests;
+    }
+
+
+
 }

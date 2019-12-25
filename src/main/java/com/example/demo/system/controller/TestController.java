@@ -1,6 +1,7 @@
 package com.example.demo.system.controller;
 
 import com.example.demo.system.model.bo.TestBo;
+import com.example.demo.system.model.po.City;
 import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
@@ -25,6 +26,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -195,6 +197,15 @@ public class TestController extends BaseController {
     }
 
 
+    @PostMapping(value = "/city")
+    @ApiOperation("城市查看")
+    public AjaxResult getCity(String pid)  {
 
+        List<City> test = testService.getCity(pid);
+        if (StringUtils.isEmpty(test)) {
+            return error(ReturnInfo.QUERY_FAIL_MSG);
+        }
+        return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
+    }
 
 }

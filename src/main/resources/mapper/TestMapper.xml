@@ -214,4 +214,17 @@
             ru.user_pkid = (select pkid from m_sysuser where account = #{account})
         ORDER BY r.role_name
     </select>
+
+
+    <resultMap id="city" type="com.example.demo.system.model.po.City">
+        <result column="id" property="id" ></result>
+        <result column="pid" property="pid" ></result>
+        <result column="name" property="name" ></result>
+    </resultMap>
+    <select id="getCity" resultMap="city">
+        select id,pid,name from province_city_district where 1 = 1
+        <if test="pid != null and pid != '' ">
+            and pid = #{pid}
+        </if>
+    </select>
 </mapper>

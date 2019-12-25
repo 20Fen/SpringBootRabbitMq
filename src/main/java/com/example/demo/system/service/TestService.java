@@ -1,6 +1,7 @@
 package com.example.demo.system.service;
 
 import com.example.demo.system.model.bo.TestBo;
+import com.example.demo.system.model.po.City;
 import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.exception.CustomException;
@@ -8,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,4 +41,6 @@ public interface TestService {
     TestPo getById(Map<String, Object> map);
     //    删除数据并删除多个文件
     String deleteUrlAll(String planNo) throws CustomException, IOException;
+
+    List<City> getCity(String pid);
 }
