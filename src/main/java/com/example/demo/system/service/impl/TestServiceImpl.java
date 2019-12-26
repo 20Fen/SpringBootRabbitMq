@@ -57,6 +57,12 @@ public class TestServiceImpl implements TestService {
         return pageInfo;
     }
 
+    @Override
+    public List<TestPo> find(Page page) {
+        List<TestPo> testPos = testMapper.find();
+        return testPos;
+    }
+
     /**
      * Description: 新建和修改数据
      */
@@ -382,6 +388,10 @@ public class TestServiceImpl implements TestService {
         return tests;
     }
 
+    @Override
+    public List<City> tree() {
+        return null;
+    }
 
 
 }

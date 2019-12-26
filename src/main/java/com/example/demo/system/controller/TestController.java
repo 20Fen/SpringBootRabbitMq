@@ -2,25 +2,25 @@ package com.example.demo.system.controller;
 
 import com.example.demo.system.model.bo.TestBo;
 import com.example.demo.system.model.po.City;
+import com.example.demo.system.model.po.Page;
 import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
 import com.example.demo.system.util.*;
 import com.exception.CustomException;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
@@ -66,6 +66,18 @@ public class TestController extends BaseController {
         } else {
             return error(ReturnInfo.QUERY_FAIL_MSG);
         }
+    }
+
+    @GetMapping(value = "/find")
+    @ApiOperation("查询全部")
+    public AjaxResult find(@Valid Page page) {
+
+          int offset =  Integer.parseInt(page.getPage());
+          int limit =  Integer.parseInt(page.getPageSize());
+        PageHelper.startPage(offset,limit);
+        List<TestPo> all = testService.find(page);
+        PageInfo<TestPo> pageInfo=new PageInfo<>(all);
+        return success(ReturnInfo.QUERY_SUCCESS_MSG, pageInfo);
     }
 
     @PostMapping(value = "/test")
@@ -198,7 +210,7 @@ public class TestController extends BaseController {
 
 
     @PostMapping(value = "/city")
-    @ApiOperation("城市查看")
+    @ApiOperation("省级联动")
     public AjaxResult getCity(String pid)  {
 
         List<City> test = testService.getCity(pid);
@@ -208,4 +220,15 @@ public class TestController extends BaseController {
         return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
     }
 
+
+    @PostMapping(value = "/tree")
+    @ApiOperation("城市查看")
+    public AjaxResult tree()  {
+
+        List<City> test = testService.tree();
+        if (StringUtils.isEmpty(test)) {
+            return error(ReturnInfo.QUERY_FAIL_MSG);
+        }
+        return success((ReturnInfo.QUERY_SUCCESS_MSG), test);
+    }
 }

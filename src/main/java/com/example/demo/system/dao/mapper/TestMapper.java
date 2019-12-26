@@ -54,4 +54,6 @@ public interface TestMapper {
     Integer getFilename(Map<String, Object> map);
     //    省级区域
     List<City> getCity(Map<String, Object> map);
+
+    List<TestPo> find();
 }

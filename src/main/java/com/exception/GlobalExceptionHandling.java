@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.UnexpectedTypeException;
 import java.net.UnknownHostException;
 
 /**
@@ -18,7 +19,7 @@ import java.net.UnknownHostException;
 public class GlobalExceptionHandling {
 	protected Logger log = LoggerFactory.getLogger(getClass());
 
-	@ExceptionHandler(value = {CustomException.class, BindException.class,RuntimeException.class,Exception.class, UnknownHostException.class})
+	@ExceptionHandler(value = {CustomException.class, BindException.class,RuntimeException.class,Exception.class, UnknownHostException.class, UnexpectedTypeException.class})
 	@ResponseBody
 	public AjaxResult handleException(Exception e) {
 		log.error("-------------------------------------------------------");

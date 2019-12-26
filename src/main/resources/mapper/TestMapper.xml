@@ -105,6 +105,11 @@
         order by create_time desc
 
     </select>
+
+    <select id="find" resultMap="getTest">
+        select * from ceshi
+    </select>
+
     <select id="getById" resultMap="getTest" parameterType="map">
             select
             id,
@@ -227,4 +232,5 @@
             and pid = #{pid}
         </if>
     </select>
+
 </mapper>
