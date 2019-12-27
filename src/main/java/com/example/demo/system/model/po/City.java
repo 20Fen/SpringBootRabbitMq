@@ -13,7 +13,6 @@ import lombok.Setter;
 @Getter
 public class City  {
 
-
     private String id;
     private String pid;
     private String name;
