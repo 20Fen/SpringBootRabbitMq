@@ -10,9 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-//@EnableSwagger2
-//@EnableScheduling
-//@EnableAsync
+@EnableScheduling
+@EnableAsync
 @ComponentScan("com")
 //@PropertySource(value = "dev.properties")
 @ImportResource("classpath:transaction.xml")
