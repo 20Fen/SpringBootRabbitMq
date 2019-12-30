@@ -49,8 +49,8 @@ public class TestServiceImpl implements TestService {
     public PageInfo<TestPo> findAll(Integer page, Integer pageSize, Map<String, Object> map) {
         //前台必须传分页值
         //调用分页插件,执行的语句必须在插件的下面
-        int limit = pageSize != null ? pageSize : 10;
         int offset = page != null ? page : 1;
+        int limit = pageSize != null ? pageSize : 10;
         PageHelper.startPage(offset, limit);
         List<TestPo> testPos = testMapper.findAll(map);
         PageInfo<TestPo> pageInfo = new PageInfo<TestPo>(testPos);
@@ -58,9 +58,20 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public List<TestPo> find(Page page) {
+    public PageInfo<TestPo> find(PageReq pageReq) {
+        int count = 0;
+        page(pageReq);
         List<TestPo> testPos = testMapper.find();
-        return testPos;
+//        if(null != testPos){
+//            count = testPos.size();
+//            int fromIndex = offset * limit;
+//            int toIndex = (offset + 1) * limit;
+//            if(toIndex > count) {
+//                toIndex = count;
+//            }
+//            List<TestPo> testPos1 = testPos.subList(fromIndex, toIndex);
+
+        return new PageInfo<>(testPos);
     }
 
     /**
@@ -393,5 +404,19 @@ public class TestServiceImpl implements TestService {
         return null;
     }
 
+
+
+    /**
+     *  分页
+     */
+    private void page(PageReq pageReq){
+        if(pageReq.isNeedPage()){
+
+            int pageNum = pageReq.getPage() != null && Integer.parseInt(pageReq.getPage()) > 0 ? Integer.parseInt(pageReq.getPage()) : 1;
+            int limit = pageReq.getPageSize() != null ? Integer.parseInt(pageReq.getPageSize()) : 10;
+
+            PageHelper.startPage(pageNum,limit );
+        }
+    }
 
 }

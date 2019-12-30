@@ -2,7 +2,7 @@ package com.example.demo.system.controller;
 
 import com.example.demo.system.model.bo.TestBo;
 import com.example.demo.system.model.po.City;
-import com.example.demo.system.model.po.Page;
+import com.example.demo.system.model.po.PageReq;
 import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.service.TestService;
@@ -10,7 +10,6 @@ import com.example.demo.system.util.*;
 import com.exception.CustomException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -70,14 +69,11 @@ public class TestController extends BaseController {
 
     @GetMapping(value = "/find")
     @ApiOperation("查询全部")
-    public AjaxResult find(@Valid Page page) {
+    public AjaxResult find(@Valid PageReq page) {
 
-          int offset =  Integer.parseInt(page.getPage());
-          int limit =  Integer.parseInt(page.getPageSize());
-        PageHelper.startPage(offset,limit);
-        List<TestPo> all = testService.find(page);
-        PageInfo<TestPo> pageInfo=new PageInfo<>(all);
-        return success(ReturnInfo.QUERY_SUCCESS_MSG, pageInfo);
+
+        PageInfo<TestPo> all = testService.find(page);
+        return success(ReturnInfo.QUERY_SUCCESS_MSG, all);
     }
 
     @PostMapping(value = "/test")

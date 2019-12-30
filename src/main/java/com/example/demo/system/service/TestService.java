@@ -2,7 +2,7 @@ package com.example.demo.system.service;
 
 import com.example.demo.system.model.bo.TestBo;
 import com.example.demo.system.model.po.City;
-import com.example.demo.system.model.po.Page;
+import com.example.demo.system.model.po.PageReq;
 import com.example.demo.system.model.po.Test;
 import com.example.demo.system.model.po.TestPo;
 import com.exception.CustomException;
@@ -47,5 +47,5 @@ public interface TestService {
 
     List<City> tree();
 
-    List<TestPo> find(Page page);
+    PageInfo<TestPo> find(PageReq page);
 }
