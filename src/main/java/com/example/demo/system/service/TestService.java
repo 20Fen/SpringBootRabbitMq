@@ -1,10 +1,7 @@
 package com.example.demo.system.service;
 
 import com.example.demo.system.model.bo.TestBo;
-import com.example.demo.system.model.po.City;
-import com.example.demo.system.model.po.PageReq;
-import com.example.demo.system.model.po.Test;
-import com.example.demo.system.model.po.TestPo;
+import com.example.demo.system.model.po.*;
 import com.exception.CustomException;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +42,7 @@ public interface TestService {
 
     List<City> getCity(String pid);
 
-    List<City> tree();
+    List<CityModel> tree();
 
     PageInfo<TestPo> find(PageReq page);
 }

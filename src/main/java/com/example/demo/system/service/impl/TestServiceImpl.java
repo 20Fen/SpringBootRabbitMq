@@ -400,16 +400,52 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public List<City> tree() {
+    public List<CityModel> tree() {
 
+        List<CityModel> list=new ArrayList<>();
+        List<CityModel> cityModels;
         Map<String,Object> map=new HashMap<>();
-        List<City> list= new ArrayList<>();
         //调用执行查询语句
         List<City> tests = testMapper.getCity(map);
 
-        return null;
-    }
+        for (City test : tests) {
 
+            CityModel cityModel =new CityModel();
+            cityModel.setId(test.getId());
+            cityModel.setId(test.getPid());
+            cityModel.setId(test.getName());
+            if(test.getPid().equals("0")){
+                cityModels = buildResourceTree(tests, test.getId());
+            } else {
+                cityModels = buildResourceTree(tests, test.getPid());
+            }
+
+            cityModel.setCitys(cityModels);
+            list.add(cityModel);
+        }
+
+        return list;
+            }
+
+    private List<CityModel> buildResourceTree(List<City> tests, String id) {
+
+        List<CityModel> list=new ArrayList<>();
+        for (City test : tests) {
+            String pid = test.getPid();
+            String id1 = test.getId();
+            if(pid.equals("0") && pid.equals(id)){
+                CityModel cityModel =new CityModel();
+                cityModel.setId(test.getId());
+                cityModel.setId(test.getPid());
+                cityModel.setId(test.getName());
+
+                List<CityModel> list1 = buildResourceTree(tests, id1);
+                cityModel.setCitys(list1);
+                list.add(cityModel);
+            }
+        }
+        return list;
+    }
 
 
     /**

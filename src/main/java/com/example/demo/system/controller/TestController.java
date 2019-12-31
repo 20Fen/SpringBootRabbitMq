@@ -1,10 +1,7 @@
 package com.example.demo.system.controller;
 
 import com.example.demo.system.model.bo.TestBo;
-import com.example.demo.system.model.po.City;
-import com.example.demo.system.model.po.PageReq;
-import com.example.demo.system.model.po.Test;
-import com.example.demo.system.model.po.TestPo;
+import com.example.demo.system.model.po.*;
 import com.example.demo.system.service.TestService;
 import com.example.demo.system.util.*;
 import com.exception.CustomException;
@@ -221,7 +218,7 @@ public class TestController extends BaseController {
     @ApiOperation("城市查看")
     public AjaxResult tree()  {
 
-        List<City> test = testService.tree();
+        List<CityModel> test = testService.tree();
         if (StringUtils.isEmpty(test)) {
             return error(ReturnInfo.QUERY_FAIL_MSG);
         }
