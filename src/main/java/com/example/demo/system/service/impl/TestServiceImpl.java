@@ -401,6 +401,12 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public List<City> tree() {
+
+        Map<String,Object> map=new HashMap<>();
+        List<City> list= new ArrayList<>();
+        //调用执行查询语句
+        List<City> tests = testMapper.getCity(map);
+
         return null;
     }
 
