@@ -398,7 +398,9 @@ public class TestServiceImpl implements TestService {
         List<City> tests = testMapper.getCity(map);
         return tests;
     }
-
+    /**
+     * Description: 查询区域组装树
+     */
     @Override
     public List<CityModel> tree() {
 
@@ -433,7 +435,7 @@ public class TestServiceImpl implements TestService {
         for (City test : tests) {
             String pid = test.getPid();
             String id1 = test.getId();
-            if(pid.equals("0") && pid.equals(id)){
+            if(!pid.equals("0") && pid.equals(id)){
                 CityModel cityModel =new CityModel();
                 cityModel.setId(test.getId());
                 cityModel.setId(test.getPid());
