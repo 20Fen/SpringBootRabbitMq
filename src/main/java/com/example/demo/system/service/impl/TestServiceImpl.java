@@ -414,8 +414,8 @@ public class TestServiceImpl implements TestService {
 
             CityModel cityModel =new CityModel();
             cityModel.setId(test.getId());
-            cityModel.setId(test.getPid());
-            cityModel.setId(test.getName());
+            cityModel.setPid(test.getPid());
+            cityModel.setName(test.getName());
             if(test.getPid().equals("0")){
                 cityModels = buildResourceTree(tests, test.getId());
             } else {
@@ -438,8 +438,8 @@ public class TestServiceImpl implements TestService {
             if(!pid.equals("0") && pid.equals(id)){
                 CityModel cityModel =new CityModel();
                 cityModel.setId(test.getId());
-                cityModel.setId(test.getPid());
-                cityModel.setId(test.getName());
+                cityModel.setPid(test.getPid());
+                cityModel.setName(test.getName());
 
                 List<CityModel> list1 = buildResourceTree(tests, id1);
                 cityModel.setCitys(list1);
