@@ -97,7 +97,7 @@
             data:{"pid":pid},
             dataType:"json",
             success:function(data){
-                console.log(data.results,'sssssssssssssss')
+                console.log(data.results,'sssssssssssssss');
                 //清空城市下拉列表框的内容
                 $("#district").html("<option value=''>-- 请选择区/县 --</option>");
                 for(var i=0;i<data.results.length;i++){
