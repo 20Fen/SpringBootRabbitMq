@@ -8,6 +8,7 @@ import com.example.demo.system.util.TableAll;
 import com.exception.CustomException;
 import com.example.demo.system.util.DateUtil;
 import com.example.demo.system.util.TestUtil;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.log4j.Log4j2;
@@ -52,7 +53,7 @@ public class TestServiceImpl implements TestService {
         int offset = page != null ? page : 1;
         int limit = pageSize != null ? pageSize : 10;
         PageHelper.startPage(offset, limit);
-        List<TestPo> testPos = testMapper.findAll(map);
+        Page<TestPo> testPos = testMapper.findAll(map);
         PageInfo<TestPo> pageInfo = new PageInfo<TestPo>(testPos);
         return pageInfo;
     }

@@ -3,6 +3,7 @@ package com.example.demo.system.dao.mapper;
 import com.example.demo.system.model.po.City;
 import com.example.demo.system.model.po.TestPo;
 import com.example.demo.system.model.po.TestPo1;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 @Mapper
 public interface TestMapper {
     //    根据条件查询
-    List<TestPo> findAll(Map<String, Object> map);
+    Page<TestPo> findAll(Map<String, Object> map);
 
     //    新建
     Integer insertTest(@Param("list") TestPo test);
