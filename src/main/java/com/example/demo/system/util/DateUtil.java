@@ -3,9 +3,11 @@ package com.example.demo.system.util;
 import com.exception.CustomException;
 import com.github.pagehelper.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -337,5 +339,25 @@ public class DateUtil {
         } catch (Exception e) {
             throw new Exception(String.format("Parse [%s] with format [%s] error!", date, NORM_DATETIME_PATTERN), e);
         }
+    }
+
+    /**
+     * 解析时间
+     *
+     * @return
+     */
+    public static Date parseTime(String dateTimeStr, String pattern) {
+
+        if (StringUtils.isEmpty(dateTimeStr)) {
+            return null;
+        }
+
+        try {
+            DateFormat dateFormat = new SimpleDateFormat(pattern);
+            return dateFormat.parse(dateTimeStr);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 }

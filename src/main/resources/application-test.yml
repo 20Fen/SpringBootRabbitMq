@@ -1,0 +1,72 @@
+swagger2:
+  enable: true
+
+spring:
+    druid:
+      url: jdbc:mysql://rm-2ze106h8q5icalb61go.mysql.rds.aliyuncs.com:3306/goodsale_test?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&zeroDateTimeBehavior=round&serverTimezone=Asia/Shanghai
+      username: goodsale_test
+      password: AtHAJlGa6awClWltstZKQ222==
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      initial-size: 1
+      max-active: 20
+      min-idle: 1
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 'x'
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      max-evictable-idle-time-millis: 600000
+      min-evictable-idle-time-millis: 300000
+      filters: wall,stat
+      stat-view-servlet:
+        reset-enable: true
+      filter:
+        stat:
+          merge-sql: true
+        wall:
+          enabled: true
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        profile-enable: true
+      db-type: mysql
+
+  #配置rabbitmq
+  rabbitmq:
+    host: 47.95.212.72
+    username: admin
+    password: 123456
+    port: 5672
+    listener:
+      simple:
+        acknowledge-mode: manual
+#   店铺自动开店配置
+    queue-name: routing_1
+    exchange-name: beautiful_delayed_shop_open_test
+    routing-key: beautiful_delayed_shop_open_test
+
+
+#   店铺自动闭店配置
+    close-queue-name: beautiful.delayed.shopClose.test
+    close-exchange-name: beautiful_delayed_shop_close_test
+    close-routing-key: beautiful_delayed_shop_close_test
+
+logging:
+  path: log/
+  level:
+    com.igoodsale.dao: debug
+    com.github.binarywang.wxpay: debug
+    org.springframework.boot.autoconfigure: ERROR
+
+server:
+  port: 8088
+
+system:
+  env: false  #区分线上环境和本地测试环境,短信等
+  wx-access-token: false  #微信token拉取
+  task: false #定时任务
+
+
+
