@@ -31,6 +31,7 @@ import java.util.Objects;
  */
 @Log4j2
 @RestController
+
 @Api(tags = "springBoot测试")
 public class TestController extends BaseController {
 
