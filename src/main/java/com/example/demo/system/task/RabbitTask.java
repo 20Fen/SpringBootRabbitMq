@@ -28,7 +28,7 @@ public class RabbitTask {
         long startExpireTime = DateUtil.parseTime(start, "yyyy-MM-dd HH:mm").getTime() - new Date().getTime();
 
         // 计算当前时间到开关店时间，将shopId分别放入延时队列
-        rabbitUtil.sender(rabbitConfig.openExchangeName,rabbitConfig.openRoutingName,(int) startExpireTime
+        rabbitUtil.sender(rabbitConfig.getOpenExchangeName(),rabbitConfig.getOpenRoutingName(),(int) startExpireTime
         );
     }
 
