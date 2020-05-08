@@ -14,9 +14,9 @@ public class RabbitUtil {
 
     public void sender(String exchange, String routingKey,Integer expireTime) {
 
-        rabbitTemplate.convertAndSend(exchange, routingKey,message1 -> {
-            message1.getMessageProperties().setHeader("x-delay", expireTime);
-            return message1;
+        rabbitTemplate.convertAndSend(exchange, routingKey,message -> {
+            message.getMessageProperties().setHeader("x-delay", expireTime);
+            return message;
         });
 
     }
