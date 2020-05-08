@@ -1,6 +1,5 @@
 package com.example.demo.system.util;
 
-import com.exception.CustomException;
 import com.github.pagehelper.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -8,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -127,146 +125,7 @@ public class DateUtil {
         return new Timestamp(calendar.getTimeInMillis());
     }
 
-    /**
-     * 获取上个月时间范围
-     */
-    public static TimeLimit getLastMonthTimeRange () {
-        Calendar startCalendar = Calendar.getInstance();
-        startCalendar.add(Calendar.MONTH, -1);
-        startCalendar.set(Calendar.DAY_OF_MONTH, 1);
-        setMinTime(startCalendar);
 
-        Calendar endCalendar = Calendar.getInstance();
-        endCalendar.add(Calendar.MONTH, -1);
-        endCalendar.set(Calendar.DAY_OF_MONTH, endCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        setMaxTime(endCalendar);
-
-        LocalDateTime startTime = LocalDateTime.ofInstant(startCalendar.getTime().toInstant(), ZoneId.systemDefault());
-        LocalDateTime endTime = LocalDateTime.ofInstant(endCalendar.getTime().toInstant(), ZoneId.systemDefault());
-        return new TimeLimit(startTime, endTime);
-    }
-
-    /**
-     * 获取某年某月的时间范围
-     */
-    public static TimeLimit getMonthTimeRange (int year, int month) {
-        Calendar startCalendar = Calendar.getInstance();
-        startCalendar.set(Calendar.YEAR, year);
-        startCalendar.set(Calendar.MONTH, month - 1);
-        startCalendar.set(Calendar.DAY_OF_MONTH, 1);
-        setMinTime(startCalendar);
-
-        Calendar endCalendar = Calendar.getInstance();
-        startCalendar.set(Calendar.YEAR, year);
-        endCalendar.set(Calendar.MONTH, month - 1);
-        endCalendar.set(Calendar.DAY_OF_MONTH, endCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        setMaxTime(endCalendar);
-
-        LocalDateTime startTime = LocalDateTime.ofInstant(startCalendar.getTime().toInstant(), ZoneId.systemDefault());
-        LocalDateTime endTime = LocalDateTime.ofInstant(endCalendar.getTime().toInstant(), ZoneId.systemDefault());
-        return new TimeLimit(startTime, endTime);
-    }
-
-    /**
-     * 描述: 获取上个季度的时间（开始和结束时间）
-     */
-    public static TimeLimit getLastStartAndTimeQuarter () {
-        Calendar startCalendar = Calendar.getInstance();
-        startCalendar.set(Calendar.MONTH, (startCalendar.get(Calendar.MONTH) / 3 - 1) * 3);
-        startCalendar.set(Calendar.DAY_OF_MONTH, 1);
-        setMinTime(startCalendar);
-
-        Calendar endCalendar = Calendar.getInstance();
-        endCalendar.set(Calendar.MONTH, (endCalendar.get(Calendar.MONTH) / 3 - 1) * 3 + 2);
-        endCalendar.set(Calendar.DAY_OF_MONTH, endCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        setMaxTime(endCalendar);
-
-        LocalDateTime startTime = LocalDateTime.ofInstant(startCalendar.getTime().toInstant(), ZoneId.systemDefault());
-        LocalDateTime endTime = LocalDateTime.ofInstant(endCalendar.getTime().toInstant(), ZoneId.systemDefault());
-        return new TimeLimit(startTime, endTime);
-    }
-
-    /**
-     * 获取某年某月的季度范围
-     */
-    public static TimeLimit getQuarterTimeRange (int year, int quarter) {
-        Calendar startCalendar = Calendar.getInstance();
-        startCalendar.set(Calendar.YEAR, year);
-        startCalendar.set(Calendar.MONTH, 3 * (quarter - 1));
-        startCalendar.set(Calendar.DAY_OF_MONTH, 1);
-        setMinTime(startCalendar);
-
-        Calendar endCalendar = Calendar.getInstance();
-        endCalendar.set(Calendar.YEAR, year);
-        endCalendar.set(Calendar.MONTH, 3 * (quarter - 1) + 2);
-        endCalendar.set(Calendar.DAY_OF_MONTH, endCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        setMaxTime(endCalendar);
-
-        LocalDateTime startTime = LocalDateTime.ofInstant(startCalendar.getTime().toInstant(), ZoneId.systemDefault());
-        LocalDateTime endTime = LocalDateTime.ofInstant(endCalendar.getTime().toInstant(), ZoneId.systemDefault());
-        return new TimeLimit(startTime, endTime);
-    }
-    private static void setMinTime (Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-    }
-    private static void setMaxTime (Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, calendar.getActualMaximum(Calendar.HOUR_OF_DAY));
-        calendar.set(Calendar.MINUTE, calendar.getActualMaximum(Calendar.MINUTE));
-        calendar.set(Calendar.SECOND, calendar.getActualMaximum(Calendar.SECOND));
-        calendar.set(Calendar.MILLISECOND, calendar.getActualMaximum(Calendar.MILLISECOND));
-    }
-
-    /**
-     * 描述: 计算两个时间相差
-     */
-    public static String getDifferTime (String startTime, String endTime) throws CustomException {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        double diff = 0.00;
-        if (startTime != null && endTime != null) {
-            try {
-                Date date1 = df.parse(startTime);
-                Date date2 = df.parse(endTime);
-                // 转化成小时
-                diff = DateUtil.intervalSeconds(date1,date2)/3600.00;
-                diff = Double.valueOf(String.format("%.2f", diff < 0 ? 0 : diff));
-            }catch (ParseException e){
-                throw new CustomException("日期格式不对，应为yyyy-MM-dd HH:mm:ss");
-            }
-        }
-        return String.valueOf(diff);
-    }
-
-    /**
-     * 每秒的毫秒数
-     */
-    public static final int MILLIS_PER_SECOND = 1000;
-    /**
-     *
-     * 描述:获取日期间隔分钟数(同一分钟间隔为0)
-     * @param startTime 起始时间
-     * @param endTime   结束时间
-     */
-    public static int intervalSeconds(Date startTime, Date endTime) throws CustomException {
-        try {
-            if (startTime==null||endTime==null) {
-                return -1;
-            }
-            int unit = 1;
-            if (startTime.after(endTime)) {
-                Date temp = startTime;
-                startTime = endTime;
-                endTime = temp;
-                unit = -1;
-            }
-            double interval = (endTime.getTime() - startTime.getTime()) / (MILLIS_PER_SECOND);
-            return (int) Math.floor(interval) * unit;
-        } catch (Exception e) {
-            throw new CustomException("--获取日期间隔分钟数失败!");
-        }
-    }
 
     /**
      * @description 获取毫秒
