@@ -47,12 +47,6 @@ spring:
     exchange-name: beautiful_delayed_shop_open_test
     routing-key: beautiful_delayed_shop_open_test
 
-
-#   店铺自动闭店配置
-    close-queue-name: beautiful.delayed.shopClose.test
-    close-exchange-name: beautiful_delayed_shop_close_test
-    close-routing-key: beautiful_delayed_shop_close_test
-
 logging:
   path: log/
   level:
